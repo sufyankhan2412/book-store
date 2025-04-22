@@ -1,0 +1,448 @@
+/* Base styles (your original code with improvements) */
+.h-100 {
+height: 100%;
+}
+.h-custom {
+height: 100vh;
+}
+.container {
+width: 100%;
+padding: 2rem;
+}
+.row {
+display: flex;
+flex-wrap: wrap;
+}
+.justify-content-center {
+justify-content: center;
+}
+.align-items-center {
+align-items: center;
+}
+.col {
+flex: 1;
+margin: 10px;
+}
+.table-responsive {
+overflow-x: auto;
+}
+.table {
+width: 100%;
+border-collapse: collapse;
+}
+.table th,
+.table td {
+padding: 15px;
+text-align: left;
+vertical-align: middle;
+border-bottom: 1px solid #f0f0f0;
+}
+.book-info {
+display: flex;
+align-items: center;
+}
+.book-info img {
+width: 120px;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.book-info img:hover {
+transform: translateY(-5px) scale(1.02);
+box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+.book-details {
+margin-left: 15px;
+}
+.book-details p {
+margin: 0;
+}
+.author {
+font-size: 0.9em;
+color: #555;
+}
+
+/* Improved quantity controls with animations */
+.quantity-controls {
+display: flex;
+align-items: center;
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.quantity-controls button {
+background: #f5f5f5;
+border: none;
+padding: 8px 12px;
+cursor: pointer;
+transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.quantity-controls button:hover {
+background: #e0e0e0;
+}
+.quantity-controls button:active {
+transform: scale(0.95);
+}
+.quantity-controls input {
+width: 50px;
+text-align: center;
+margin: 0;
+border: none;
+border-left: 1px solid #eee;
+border-right: 1px solid #eee;
+padding: 8px 0;
+}
+
+/* Enhanced payment card with animations */
+.payment-card {
+margin-top: 40px;
+padding: 25px;
+border: none;
+border-radius: 16px;
+background-color: white;
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+animation: fadeIn 0.5s ease-out;
+}
+.payment-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.payment-methods label {
+display: flex;
+align-items: center;
+margin-bottom: 15px;
+padding: 12px;
+border-radius: 10px;
+cursor: pointer;
+transition: background-color 0.2s ease;
+}
+.payment-methods label:hover {
+background-color: #f8f9fa;
+}
+.payment-methods input[type="radio"] {
+margin-right: 10px;
+}
+
+.payment-icon {
+width: 30px;
+height: 30px;
+margin-right: 15px;
+transition: transform 0.2s ease;
+}
+.payment-methods label:hover .payment-icon {
+transform: scale(1.1);
+}
+
+.card-details input {
+display: block;
+width: 100%;
+padding: 12px 15px;
+margin: 12px 0;
+border: 1px solid #ddd;
+border-radius: 8px;
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+font-size: 16px;
+}
+.card-details input:focus {
+outline: none;
+border-color: #0d6efd;
+box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+.card-details input:hover {
+border-color: #adb5bd;
+}
+
+/* Enhanced summary section */
+.summary {
+padding-left: 25px;
+animation: slideInRight 0.5s ease-out;
+}
+.summary h4 {
+margin-bottom: 20px;
+position: relative;
+}
+.summary h4:after {
+content: '';
+position: absolute;
+bottom: -10px;
+left: 0;
+width: 40px;
+height: 3px;
+background-color: #0d6efd;
+animation: widthExpand 0.6s ease-out forwards;
+}
+.summary p {
+display: flex;
+justify-content: space-between;
+margin: 15px 0;
+font-size: 16px;
+}
+.summary p.total {
+font-weight: bold;
+font-size: 18px;
+margin-top: 20px;
+padding-top: 15px;
+border-top: 1px dashed #ddd;
+}
+
+/* Enhanced checkout button with animation */
+.checkout-btn {
+width: 100%;
+padding: 14px;
+background-color: #0d6efd;
+color: white;
+border: none;
+border-radius: 10px;
+font-size: 16px;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+cursor: pointer;
+transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+position: relative;
+overflow: hidden;
+}
+.checkout-btn:hover {
+background-color: #0b5ed7;
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+.checkout-btn:active {
+transform: translateY(1px);
+box-shadow: 0 2px 8px rgba(13, 110, 253, 0.4);
+}
+.checkout-btn::after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 5px;
+height: 5px;
+background: rgba(255, 255, 255, 0.5);
+opacity: 0;
+border-radius: 100%;
+transform: scale(1, 1) translate(-50%);
+transform-origin: 50% 50%;
+}
+.checkout-btn:hover::after {
+animation: ripple 1s ease-out;
+}
+
+/* PayPal specific styles */
+.paypal-info input {
+width: 100%;
+padding: 12px 15px;
+margin-top: 12px;
+border: 1px solid #ddd;
+border-radius: 8px;
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.paypal-info input:focus {
+outline: none;
+border-color: #ffc439;
+box-shadow: 0 0 0 3px rgba(255, 196, 57, 0.15);
+}
+
+.paypal-button {
+width: 100%;
+padding: 12px;
+margin-top: 12px;
+background-color: #ffc439;
+color: #111;
+font-weight: bold;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.2s ease;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.paypal-button:hover {
+background-color: #f5bb2d;
+transform: translateY(-2px);
+}
+.paypal-button:active {
+transform: translateY(1px);
+}
+
+/* Table row hover effect */
+.table tbody tr {
+transition: background-color 0.2s ease;
+}
+.table tbody tr:hover {
+background-color: #f8f9fa;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+from {
+    opacity: 0;
+    transform: translateY(20px);
+}
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+}
+
+@keyframes slideInRight {
+from {
+    opacity: 0;
+    transform: translateX(30px);
+}
+to {
+    opacity: 1;
+    transform: translateX(0);
+}
+}
+
+@keyframes widthExpand {
+from {
+    width: 0;
+}
+to {
+    width: 40px;
+}
+}
+
+@keyframes ripple {
+0% {
+    transform: scale(0);
+    opacity: 1;
+}
+20% {
+    transform: scale(25);
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    transform: scale(40);
+}
+}
+
+/* Item added animation */
+@keyframes itemAdded {
+0% {
+    background-color: rgba(46, 213, 115, 0.1);
+}
+50% {
+    background-color: rgba(46, 213, 115, 0.2);
+}
+100% {
+    background-color: transparent;
+}
+}
+
+/* Cart item entrance animations */
+.cart-item {
+animation: slideInFromLeft 0.4s ease-out forwards;
+opacity: 0;
+}
+
+.cart-item:nth-child(1) { animation-delay: 0.1s; }
+.cart-item:nth-child(2) { animation-delay: 0.2s; }
+.cart-item:nth-child(3) { animation-delay: 0.3s; }
+.cart-item:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInFromLeft {
+from {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+to {
+    opacity: 1;
+    transform: translateX(0);
+}
+}
+
+/* Pulse animation for price changes */
+@keyframes pricePulse {
+0% {
+    transform: scale(1);
+}
+50% {
+    transform: scale(1.1);
+    color: #0d6efd;
+}
+100% {
+    transform: scale(1);
+}
+}
+
+.price-change {
+animation: pricePulse 0.5s ease-in-out;
+}
+
+/* Add a subtle page loading animation */
+.cart-container {
+animation: fadeIn 0.8s ease-out;
+}
+
+/* Shake animation for invalid inputs */
+@keyframes shakeX {
+0%, 100% {
+    transform: translateX(0);
+}
+10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+}
+20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+}
+}
+
+.input-error {
+animation: shakeX 0.6s ease-in-out;
+border-color: #dc3545 !important;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+display: inline-block;
+width: 20px;
+height: 20px;
+border: 3px solid rgba(255,255,255,0.3);
+border-radius: 50%;
+border-top-color: #fff;
+animation: spin 1s ease-in-out infinite;
+margin-right: 10px;
+}
+
+/* Floating labels for inputs */
+.floating-label {
+position: relative;
+margin-bottom: 20px;
+}
+
+.floating-label input {
+height: 60px;
+font-size: 16px;
+padding: 20px 15px 0;
+}
+
+.floating-label label {
+position: absolute;
+top: 15px;
+left: 15px;
+font-size: 16px;
+color: #6c757d;
+pointer-events: none;
+transition: 0.2s ease all;
+}
+
+.floating-label input:focus ~ label,
+.floating-label input:not(:placeholder-shown) ~ label {
+top: 8px;
+font-size: 12px;
+color: #0d6efd;
+}
