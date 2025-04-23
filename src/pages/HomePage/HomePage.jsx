@@ -3,18 +3,17 @@ import './HomePage.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import HeroSlider from '../../components/HeroSlider/HeroSlider';
-import NewsletterSignup from '../../components/NewsletterSignup/NewsletterSignup';
 import Footer from '../../components/Footer/Footer';
+import NewsletterSignup from '../../components/NewsletterSignup/NewsletterSignup'
 
 const HomePage = () => {
   return (
     <>
-      <div style={{ padding: 20, background: 'yellow' }}>🚀 HomePage Loaded!</div>
       {/* Site Header */}
       <Navbar />
 
-      {/* Hero Slider */}
-      <HeroSlider />
+      {/* Site Header */}
+      <HeroSlider/>
 
       {/* Creative Vision Section */}
       <section className="creative-vision">
@@ -116,11 +115,12 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Newsletter Signup */}
-      <NewsletterSignup />
+      {/* Site Header */}
+      <NewsletterSignup/>
 
-      {/* Footer */}
-      <Footer />
+      {/* Site Header */}
+      <Footer/>
+
     </>
   );
 };
