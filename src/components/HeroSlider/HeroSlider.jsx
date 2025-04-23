@@ -4,17 +4,17 @@ import "./HeroSlider.css";
 const HeroSlider = () => {
   const slides = [
     {
-      image: "https://via.placeholder.com/1920x1080/FF5733/FFFFFF?text=Slide+1",
+      image: "public\assets\img2.jpg",
       title: "Welcome to Our Website!",
       description: "Explore our amazing products and services.",
     },
     {
-      image: "https://via.placeholder.com/1920x1080/33A1FF/FFFFFF?text=Slide+2",
+      image: "public\assets\img1.jpg",
       title: "Discover More",
       description: "Find the best deals for you.",
     },
     {
-      image: "https://via.placeholder.com/1920x1080/85FF33/FFFFFF?text=Slide+3",
+      image: "public\assets\slider5.jpg",
       title: "Join Our Community",
       description: "Be a part of our ever-growing family.",
     },

@@ -27,9 +27,9 @@ const HomePage = () => {
           <button className="cta-button">About Us</button>
         </div>
         <div className="media-content">
-          <img src="library.jpeg" alt="Bookshelf" className="background-image" />
+          <img src="/assets/library.jpeg" alt="Bookshelf" className="background-image" />
           <div className="video-wrapper">
-            <img src="blog19.jpg" alt="Library" className="thumbnail" />
+            <img src="/assets/blog19.jpg" alt="Library" className="thumbnail" />
             <a
               href="https://player.vimeo.com/video/444825944?h=74d9b29d04"
               className="play-button"
@@ -51,7 +51,7 @@ const HomePage = () => {
             {/* Repeat this .book-item for each book */}
             <div className="book-item">
               <div className="book-image">
-                <img src="book9.jpg" alt="The Kite Runner"/>
+                <img src="/assets/book9.jpg" alt="The Kite Runner"/>
                 <div className="icon-container">
                   <button className="icon-btn"><i className="fas fa-heart"></i></button>
                   <button className="icon-btn"><i className="fas fa-shopping-bag"></i></button>
@@ -61,7 +61,43 @@ const HomePage = () => {
               <h3>The Kite Runner</h3>
               <p>KHALED HOSSEINI</p>
             </div>
-            {/* ...other book-items... */}
+            <div class="book-item">
+                    <div class="book-image">
+                        <img src="/assets/book8.jpg" alt="Enough About Me"/>
+                        <div class="icon-container">
+                            <button class="icon-btn"><i class="fas fa-heart"></i></button>
+                            <button class="icon-btn"><i className="fas fa-shopping-bag"></i></button>
+                            <button class="icon-btn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <h3>IKIGAI</h3>
+                    <p>HECTOR GRACIA</p>
+                </div>
+                <div class="book-item">
+                    <div class="book-image">
+                        <img src="/assets/book6.jpg" alt="His Story"/>
+                        <div class="icon-container">
+                            
+                            <button class="icon-btn"><i class="fas fa-heart"></i></button>
+                            <button class="icon-btn"><i className="fas fa-shopping-bag"></i></button>
+                            <button class="icon-btn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <h3>The Forty Rules of Love</h3>
+                    <p>ELIF SHAFAK</p>
+                </div>
+                <div class="book-item">
+                    <div class="book-image">
+                        <img src="/assets/book7.jpg" alt="White Teeth"/>
+                        <div class="icon-container">
+                            <button class="icon-btn"><i class="fas fa-heart"></i></button>
+                            <button class="icon-btn"><i className="fas fa-shopping-bag"></i></button>
+                            <button class="icon-btn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <h3>Think and Grow Rich</h3>
+                    <p>NAPOLEON HILL</p>
+                </div>
           </div>
           <button className="cta-button">View More Books</button>
         </div>
@@ -74,7 +110,7 @@ const HomePage = () => {
         <div className="blog-container">
           <div className="blog-main">
             <img
-              src="blog17.jpg"
+              src="public\assets\blog17.jpg"
               alt="Book on Beach"
               className="blog-main-image"
             />
@@ -87,7 +123,7 @@ const HomePage = () => {
           </div>
           <div className="blog-list">
             <div className="blog-item">
-              <img src="home-blog.jpeg" alt="Blog 1" className="blog-thumbnail" />
+              <img src="/assets/home-blog.jpeg" alt="Blog 1" className="blog-thumbnail" />
               <div className="blog-content">
                 <span className="blog-category">UPDATES • Mar 13, 2020</span>
                 <h3 className="blog-title">Start your day properly with the hottest novelties</h3>
@@ -99,20 +135,54 @@ const HomePage = () => {
       </section>
 
       {/* Offer / Gallery Section */}
-      <section className="offer-section">
-        <h4>What We Offer</h4>
-        <h2>Photo Gallery</h2>
-        <div className="gallery">
-          {/* Repeat .gallery-item */}
-          <div className="gallery-item">
-            <img src="blog1.jpg" alt="Popular Novels"/>
-            <div className="overlay">
-              <h3>Popular Novels</h3>
-              <p>Literature</p>
-            </div>
+      <section class="offer-section">
+          <h4>What We Offer</h4>
+          <h2>Photo Gallery</h2>
+          
+          <div class="gallery">
+              <div class="gallery-item">
+                  <img src="/assets/blog1.jpg" alt="Category 1"/>
+                  <div class="overlay">
+                      <h3>Popular Novels</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
+              <div class="gallery-item">
+                  <img src="/assets/blog2.jpg" alt="Category 2"/>
+                  <div class="overlay">
+                      <h3>Classic Literature</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
+              <div class="gallery-item">
+                  <img src="/assets/blog16.jpg" alt="Category 3"/>
+                  <div class="overlay">
+                      <h3>Fantasy</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
+              <div class="gallery-item">
+                  <img src="/assets/blog17.jpg" alt="Category 4"/>
+                  <div class="overlay">
+                      <h3>Drama & Romance</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
+              <div class="gallery-item">
+                  <img src="/assets/blog18.jpg" alt="Category 5"/>
+                  <div class="overlay">
+                      <h3>Humor</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
+              <div class="gallery-item">
+                  <img src="/assets/blog19.jpg" alt="Category 6"/>
+                  <div class="overlay">
+                      <h3>Poetry & plays</h3>
+                      <p>Literature</p>
+                  </div>
+              </div>
           </div>
-          {/* ...other gallery-items... */}
-        </div>
       </section>
 
       {/* Site Header */}
