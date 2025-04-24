@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./CartPage.css";
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([
@@ -87,6 +89,8 @@ const CartPage = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <section className="h-100 h-custom">
       <div className="container py-5">
         <div className="row justify-content-center align-items-center">
@@ -230,6 +234,8 @@ const CartPage = () => {
         </div>
       </div>
     </section>
+    <Footer/>
+  </>
   );
 };
 

@@ -6,6 +6,11 @@ import HomePage from './pages/HomePage/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import EventPage from './pages/Event/EventPage';
+import CartPage from "./pages/CartPage/CartPage";
+import BlogGallery from "./pages/BlogGallery/BlogGallery";
+import BlogStyle1 from "./pages/BlogStyle1/BlogStyle1";
+import BlogStyle2 from "./pages/BlogStyle2/BlogStyle2";
+
 
 // Placeholder components for extra routes
 const Placeholder = ({ title }) => <div style={{ padding: '2rem' }}><h2>{title}</h2></div>;
@@ -26,6 +31,7 @@ function App() {
         <Route path="/service-plus" element={<Placeholder title="Service Plus" />} />
 
         {/* Blog Styles 1 */}
+        <Route path="/blog-style1" element={<BlogStyle1 />} />
         <Route path="/blog/standard" element={<Placeholder title="Blog - Standard" />} />
         <Route path="/blog/list" element={<Placeholder title="Blog - List" />} />
         <Route path="/blog/masonry-2" element={<Placeholder title="Blog - Masonry 2 Columns" />} />
@@ -33,8 +39,8 @@ function App() {
         <Route path="/blog/masonry-4" element={<Placeholder title="Blog - Masonry 4 Columns" />} />
 
         {/* Blog Styles 2 */}
-        <Route path="/blog/portfolio-3" element={<Placeholder title="Blog - Portfolio 3 Columns" />} />
-        <Route path="/blog/portfolio-4" element={<Placeholder title="Blog - Portfolio 4 Columns" />} />
+        <Route path="/blog-style2" element={<BlogStyle2 />} /> 
+        <Route path="/blog-gallery" element={<BlogGallery />} />
         <Route path="/blog/grid-2" element={<Placeholder title="Blog - Grid 2 Columns" />} />
         <Route path="/blog/grid-3" element={<Placeholder title="Blog - Grid 3 Columns" />} />
         <Route path="/blog/grid-4" element={<Placeholder title="Blog - Grid 4 Columns" />} />
@@ -50,7 +56,7 @@ function App() {
         {/* Store Pages */}
         <Route path="/ProductList" element={<Placeholder title="Product List" />} />
         <Route path="/ProductSingle" element={<Placeholder title="Product Single" />} />
-        <Route path="/Cart" element={<Placeholder title="Cart" />} />
+        <Route path="/cart" element={<CartPage />} /> 
 
         {/* 404 Page */}
         <Route path="*" element={<Placeholder title="404 - Page Not Found" />} />

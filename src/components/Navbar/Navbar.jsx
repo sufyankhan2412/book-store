@@ -41,6 +41,7 @@ const Navbar = () => {
             <li className="dropdown-section-blog">
               <span className="section-title">Blog Styles 1</span>
               <ul className="blog-columns">
+                <li><Link to="/blog-style1">Blog Style 1</Link></li>
                 <li><Link to="/blog/standard">Standard</Link></li>
                 <li><Link to="/blog/list">List</Link></li>
                 <li><Link to="/blog/masonry-2">Masonry 2 Columns</Link></li>
@@ -51,8 +52,8 @@ const Navbar = () => {
             <li className="dropdown-section-blog">
               <span className="section-title">Blog Styles 2</span>
               <ul className="blog-columns">
-                <li><Link to="/blog/portfolio-3">Portfolio 3 Columns</Link></li>
-                <li><Link to="/blog/portfolio-4">Portfolio 4 Columns</Link></li>
+                <li><Link to="/blog-style2">Blog Style 2</Link></li>
+                <li><Link to="/blog-gallery">Blog Gallery</Link></li>
                 <li><Link to="/blog/grid-2">Grid 2 Columns</Link></li>
                 <li><Link to="/blog/grid-3">Grid 3 Columns</Link></li>
                 <li><Link to="/blog/grid-4">Grid 4 Columns</Link></li>
@@ -79,7 +80,7 @@ const Navbar = () => {
           <ul className="dropdown-menu">
             <li><Link to="/ProductList">Product List</Link></li>
             <li><Link to="/ProductSingle">Product Single</Link></li>
-            <li><Link to="/Cart">Cart</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
           </ul>
         </li>
 
