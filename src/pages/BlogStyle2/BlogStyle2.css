@@ -1,0 +1,411 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Hero Section Styles */
+  .hero-slider {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  
+  .hero-slide.active {
+    opacity: 1;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .author-img {
+    width: 50px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px; /* Adjust spacing */
+  }
+  .quote-container {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Georgia', serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.dropcap {
+    font-size: 60px;
+    font-weight: bold;
+    float: left;
+    margin-right: 10px;
+    line-height: 1;
+    font-family: 'Times New Roman', serif;
+}
+
+.quote-text {
+    display: inline;
+}
+
+  /* Article Content Styles */
+  .article-content {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 0 20px;
+  }
+  
+  .article-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .article-content p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .article-content blockquote {
+    background-color: #e7e8dd;
+    font-size: 24px;
+    font-style: italic;
+    color: #030303;
+    border-left: 4px solid #e7e8dd;
+    padding-left: 20px;
+    margin: 40px 0;
+  }
+  /* Image Grid Styling */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 15px; /* Space between images */
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  .grid-item img {
+    width: 100%; /* Full width of grid cell */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure images cover the space */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Light shadow effect */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .grid-item img:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .image-grid {
+      grid-template-columns: 1fr; /* Stack images on small screens */
+    }
+  }
+  /* Button Styling */
+.button-container {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .filter-btn {
+    background-color: #948080; /* Attractive red shade */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .filter-btn:hover {
+    background-color: #3f5df6; /* Darker red on hover */
+  }
+  
+  /* Image Grid Styling */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 15px; /* Space between images */
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  .grid-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .grid-item img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .image-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .filter-btn {
+      width: 40%; /* Make buttons bigger on small screens */
+      margin-bottom: 10px;
+    }
+  }
+ /* Center the entire navigation */
+.article-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Ensure text is centered */
+    width: 100%;
+  }
+  
+  /* Previous & Next Navigation */
+  .prev-next {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    gap: 40px; /* Space between links */
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .prev, .next {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center; /* Center text */
+  }
+  
+  .prev p, .next p {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 5px;
+  }
+  
+  .prev:hover, .next:hover {
+    color: #4552e4; /* Highlight on hover */
+  }
+  
+  /* Author Box */
+  .author-box {
+    display: flex;
+    flex-direction: column; /* Stack content in a column */
+    align-items: center; /* Center horizontally */
+    justify-content: center;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center; /* Center text */
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .author-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px; /* Adjust spacing */
+  }
+  
+  .author-info {
+    width: 100%;
+  }
+  
+  .author-info h3 {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  .about-author {
+    font-size: 14px;
+    color: gray;
+    margin: 5px 0;
+  }
+  
+  .author-bio {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  /* Social Icons */
+  .social-icons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    gap: 15px; /* Space between icons */
+  }
+  
+  .social-icons a {
+    font-size: 18px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .social-icons a:hover {
+    color: #427af3; /* Change color on hover */
+  }
+  .image-grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.article-container2 {
+    align-items: center; /* Center horizontally */
+    display: flex;
+    justify-content: center; /* Centers images horizontally */
+    align-items: center; /* Aligns images vertically */
+    gap: 20px; /* Adds spacing between images */
+    flex-wrap: wrap; /* Ensures responsiveness on smaller screens */
+}
+
+.article-image2 {
+  padding-top: 0;
+  margin-right: 200px;
+    width: 200px;  /* Adjust size */
+    height: 150px; /* Maintain proportion */
+    object-fit: cover; /* Prevents distortion */
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth effect */
+}
+
+.article-image2:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+.cases-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Times New Roman', serif;
+  color: #000;
+}
+
+.case-item {
+  width: 48%;
+}
+
+.case-button {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 5px;
+  color: #000;
+}
+
+.case-button:hover {
+  text-decoration: underline;
+}
+
+.case-description {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+  
+  .closing-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .icons a {
+    color: #d3cece;
+    transition: color 0.3s ease;
+  }
+  
+  .icons a:hover {
+    color: #007bff;
+  }
+  
+  /* Scroll to Top Button */
+  #scroll-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  #scroll-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  #scroll-to-top-btn:hover {
+    background-color: #0056b3;
+  }

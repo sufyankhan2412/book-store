@@ -1,4 +1,3 @@
-// src/components/Navbar/Navbar.jsx
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Navbar.css';
@@ -20,56 +19,54 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-       <h2>Navbar Loaded</h2>
       <h1 className="logo">READIFY</h1>
 
       <ul className="nav-links">
         <li><Link to="/">Home</Link></li>
-        
 
         <li className="dropdown">
-          <a href="#">Pages</a>
+          <span>Pages</span>
           <ul className="dropdown-menu">
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Typography</a></li>
-            <li><a href="#">Shortcodes</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Service Plus</a></li>
+            <li><Link to="/events">Events</Link></li>
+            <li><Link to="/typography">Typography</Link></li>
+            <li><Link to="/shortcodes">Shortcodes</Link></li>
+            <li><Link to="/faq">FAQ</Link></li>
+            <li><Link to="/service-plus">Service Plus</Link></li>
           </ul>
         </li>
 
         <li className="dropdown-blog">
-          <a href="#">Blog</a>
+          <span>Blog</span>
           <ul className="dropdown-menu-blog">
             <li className="dropdown-section-blog">
               <span className="section-title">Blog Styles 1</span>
               <ul className="blog-columns">
-                <li><a href="#">Standard</a></li>
-                <li><a href="#">List</a></li>
-                <li><a href="#">Masonry 2 Columns</a></li>
-                <li><a href="#">Masonry 3 Columns</a></li>
-                <li><a href="#">Masonry 4 Columns</a></li>
+                <li><Link to="/blog/standard">Standard</Link></li>
+                <li><Link to="/blog/list">List</Link></li>
+                <li><Link to="/blog/masonry-2">Masonry 2 Columns</Link></li>
+                <li><Link to="/blog/masonry-3">Masonry 3 Columns</Link></li>
+                <li><Link to="/blog/masonry-4">Masonry 4 Columns</Link></li>
               </ul>
             </li>
             <li className="dropdown-section-blog">
               <span className="section-title">Blog Styles 2</span>
               <ul className="blog-columns">
-                <li><a href="#">Portfolio 3 Columns</a></li>
-                <li><a href="#">Portfolio 4 Columns</a></li>
-                <li><a href="#">Grid 2 Columns</a></li>
-                <li><a href="#">Grid 3 Columns</a></li>
-                <li><a href="#">Grid 4 Columns</a></li>
+                <li><Link to="/blog/portfolio-3">Portfolio 3 Columns</Link></li>
+                <li><Link to="/blog/portfolio-4">Portfolio 4 Columns</Link></li>
+                <li><Link to="/blog/grid-2">Grid 2 Columns</Link></li>
+                <li><Link to="/blog/grid-3">Grid 3 Columns</Link></li>
+                <li><Link to="/blog/grid-4">Grid 4 Columns</Link></li>
               </ul>
             </li>
             <li className="dropdown-section-blog">
               <span className="section-title">Single Posts</span>
               <ul className="blog-columns">
-                <li><a href="#">Style 1</a></li>
-                <li><a href="#">Style 2</a></li>
-                <li><a href="#">With Sidebar</a></li>
-                <li><a href="#">Video</a></li>
-                <li><a href="#">Audio</a></li>
-                <li><a href="#">Gallery</a></li>
+                <li><Link to="/post/style-1">Style 1</Link></li>
+                <li><Link to="/post/style-2">Style 2</Link></li>
+                <li><Link to="/post/sidebar">With Sidebar</Link></li>
+                <li><Link to="/post/video">Video</Link></li>
+                <li><Link to="/post/audio">Audio</Link></li>
+                <li><Link to="/post/gallery">Gallery</Link></li>
               </ul>
             </li>
           </ul>
@@ -78,16 +75,15 @@ const Navbar = () => {
         <li><Link to="/about">About</Link></li>
 
         <li className="dropdown">
-          <a href="#">Store</a>
+          <span>Store</span>
           <ul className="dropdown-menu">
-            <li><a href="#">Store 1</a></li>
-            <li><a href="#">Store 2</a></li>
-            <li><a href="#">Store 3</a></li>
+            <li><Link to="/ProductList">Product List</Link></li>
+            <li><Link to="/ProductSingle">Product Single</Link></li>
+            <li><Link to="/Cart">Cart</Link></li>
           </ul>
         </li>
 
         <li><Link to="/contact">Contact</Link></li>
-
       </ul>
 
       <div className="social-icons">
