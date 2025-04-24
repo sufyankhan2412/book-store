@@ -1,5 +1,6 @@
 // src/components/Navbar/Navbar.jsx
 import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 import './Navbar.css';
 
 const Navbar = () => {
@@ -19,12 +20,12 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
+       <h2>Navbar Loaded</h2>
       <h1 className="logo">READIFY</h1>
 
       <ul className="nav-links">
-        <li className="dropdown">
-          <a href="#">Home</a>
-        </li>
+        <li><Link to="/">Home</Link></li>
+        
 
         <li className="dropdown">
           <a href="#">Pages</a>
@@ -74,7 +75,7 @@ const Navbar = () => {
           </ul>
         </li>
 
-        <li><a href="#">About Us</a></li>
+        <li><Link to="/about">About</Link></li>
 
         <li className="dropdown">
           <a href="#">Store</a>
@@ -85,9 +86,8 @@ const Navbar = () => {
           </ul>
         </li>
 
-        <li>
-          <a href="#">Contacts</a>
-        </li>
+        <li><Link to="/contact">Contact</Link></li>
+
       </ul>
 
       <div className="social-icons">

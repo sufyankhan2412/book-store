@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar from '../../components/navbar/Navbar';
 import HeroSlider from '../../components/HeroSlider/HeroSlider';
 import Footer from '../../components/Footer/Footer';
 import NewsletterSignup from '../../components/NewsletterSignup/NewsletterSignup'
