@@ -11,7 +11,6 @@ import BlogGallery from "./pages/BlogGallery/BlogGallery";
 import BlogStyle1 from "./pages/BlogStyle1/BlogStyle1";
 import BlogStyle2 from "./pages/BlogStyle2/BlogStyle2";
 
-
 // Placeholder components for extra routes
 const Placeholder = ({ title }) => <div style={{ padding: '2rem' }}><h2>{title}</h2></div>;
 

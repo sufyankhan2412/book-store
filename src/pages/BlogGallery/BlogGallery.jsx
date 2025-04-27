@@ -93,7 +93,7 @@ const BlogGallery = () => {
       <div class="container">
         <p><h1 class="title">Top successful author collabs in 2019-2020</h1></p>
         <div class="author-info">
-            <img src="pg5.jpeg" alt="Author Image"></img>
+            <img src="/assets/pg5.jpeg" alt="Author Image"></img>
             <span class="author-name">ASHTON PORTER</span>
             <span class="dot">•</span>
             <span class="date">Mar 24, 2020</span>
@@ -109,7 +109,7 @@ const BlogGallery = () => {
               <div className="hero-content">
               </div>
               <img
-                src="blog9.jpg"
+                src="/assets/blog9.jpg"
                 alt="Hero Image 1"
                 className="hero-image"
               />
@@ -120,7 +120,7 @@ const BlogGallery = () => {
                 
               </div>
               <img
-                src="blog10.jpg"
+                src="/assets/blog10.jpg"
                 alt="Hero Image 2"
                 className="hero-image"
               />
@@ -131,7 +131,7 @@ const BlogGallery = () => {
           
               </div>
               <img
-                src="blog11.jpg"
+                src="/assets/blog11.jpg"
                 alt="Hero Image 3"
                 className="hero-image"
               />
@@ -166,10 +166,10 @@ const BlogGallery = () => {
             vitae dicta sunt.</p>
             <section className="image-grid">
             <div className="grid-item">
-              <img src="blog7.jpeg" alt="Image 1" />
+              <img src="/assets/blog7.jpeg" alt="Image 1" />
             </div>
             <div className="grid-item">
-              <img src="pg6.jpeg" alt="Image 2" />
+              <img src="/assets/pg6.jpeg" alt="Image 2" />
             </div>
           </section>
           <p> Ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
@@ -202,7 +202,7 @@ const BlogGallery = () => {
           </div>
           <section className="image-grid">
             <div className="grid-item">
-              <img src="blog12.jpg" alt="Image 1" />
+              <img src="/assets/blog12.jpg" alt="Image 1" />
             <p>Stet clita kasd gubergren, no sea sanctus est labore et dolore. By Kevin Smith</p> 
             </div>
             
@@ -238,7 +238,7 @@ const BlogGallery = () => {
           </div>
 
           <div className="author-box">
-            <img src="pg5.jpeg" alt="Ashton Porter" className="author-img" />
+            <img src="/assets/pg5.jpeg" alt="Ashton Porter" className="author-img" />
             <div className="author-info">
               <h3>Ashton Porter</h3>
               <p className="about-author">ABOUT AUTHOR</p>
@@ -277,7 +277,7 @@ const BlogGallery = () => {
             
       <div class="podcast-container">
       <div class="podcast-image">
-        <img src="blog13.jpg" alt="Podcast Cover"></img>
+        <img src="/assets/blog13.jpg" alt="Podcast Cover"></img>
       </div>
       <div class="podcast-info">
         <p>Modern podcasts for literature lovers</p>

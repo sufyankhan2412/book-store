@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import './BlogStyle2.css';
+import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
 
 const BlogStyle2 = () => {
   useEffect(() => {
@@ -33,24 +35,23 @@ const BlogStyle2 = () => {
   }, []);
 
   return (
+    <>
+    <Navbar/>
     <div>
       {/* Hero Section (Single Image) */}
       <section className="hero-slider">
         <div className="hero-slide active">
           <div className="hero-overlay"></div>
           <div className="hero-content"></div>
-          <img src="blog1.jpg" alt="Hero Image" className="hero-image" />
+          <img src="/assets/blog1.jpg" alt="Hero Image" className="hero-image" />
         </div>
       </section>
-      
-
-
       <div className="article-content">
         <center> <h1>If you like romance, you should </h1></center>
         <center> <h1>get this book </h1></center>
         <center>
 
-        <img src="pg5.jpeg" alt="Author" className="author-img" /> 
+        <img src="/assets/pg5.jpeg" alt="Author" className="author-img" /> 
           <p>Ashton Porter Apr 21, 2020 0Comments</p></center>
           <div className="quote-container">
       <p>
@@ -76,10 +77,10 @@ const BlogStyle2 = () => {
     </div>
     <section className="image-grid">
         <div className="grid-item">
-          <img src="blog4.jpeg" alt="Image 1" />
+          <img src="/assets/blog4.jpeg" alt="Image 1" />
         </div>
         <div className="grid-item">
-          <img src="blog7.jpeg" alt="Image 2" />
+          <img src="/assets/blog7.jpeg" alt="Image 2" />
         </div>
       </section>
       <p>Ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
@@ -113,7 +114,7 @@ const BlogStyle2 = () => {
 
       
         <div className="grid-item">
-          <img src="blog8.jpg" alt="Image 1" />
+          <img src="/assets/blog8.jpg" alt="Image 1" />
         </div>
         <p>Stet clita kasd gubergren, no sea sanctus est labore et dolore. By Kevin Smith</p>
       <div className="article-content">
@@ -151,7 +152,7 @@ const BlogStyle2 = () => {
       </div>
 
       <div className="author-box">
-        <img src="pg5.jpeg" alt="Ashton Porter" className="author-img" />
+        <img src="/assets/pg5.jpeg" alt="Ashton Porter" className="author-img" />
         <div className="author-info">
           <h3>Ashton Porter</h3>
           <p className="about-author">ABOUT AUTHOR</p>
@@ -176,8 +177,8 @@ const BlogStyle2 = () => {
         <h1>You May Also Like</h1>
         </div>
         <div className="article-container2">
-  <img src="blog7.jpeg" alt="Article 1" className="article-image2" />
-  <img src="home1.jpeg" alt="Article 2" className="article-image2" />
+  <img src="/assets/blog7.jpeg" alt="Article 1" className="article-image2" />
+  <img src="/assets/home1.jpeg" alt="Article 2" className="article-image2" />
 </div>
 <div className="cases-container">
       <div className="case-item">
@@ -191,6 +192,8 @@ const BlogStyle2 = () => {
       </div>
     </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

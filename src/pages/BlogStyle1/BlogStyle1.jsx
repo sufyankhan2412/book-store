@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import './BlogStyle1.css';
-
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 const BlogStyle1 = () => {
   useEffect(() => {
     // Shrink Navbar on Scroll
@@ -33,13 +34,16 @@ const BlogStyle1 = () => {
   }, []);
 
   return (
-    <div>
-      {/* Hero Section (Single Image) */}
+    
+      <>
+      <Navbar/>
+      <div>
+        {/* Hero Section (Single Image) */}
       <section className="hero-slider">
         <div className="hero-slide active">
           <div className="hero-overlay"></div>
           <div className="hero-content"></div>
-          <img src="blog4.jpeg" alt="Hero Image" className="hero-image" />
+          <img src="/assets/blog4.jpeg" alt="Hero Image" className="hero-image" />
         </div>
       </section>
 
@@ -83,13 +87,13 @@ const BlogStyle1 = () => {
       </div>
       <section className="image-grid">
         <div className="grid-item">
-          <img src="pg6.jpeg" alt="Image 1" />
+          <img src="/assets/pg6.jpeg" alt="Image 1" />
         </div>
         <div className="grid-item">
-          <img src="pg4.jpeg" alt="Image 2" />
+          <img src="/assets/pg4.jpeg" alt="Image 2" />
         </div>
         <div className="grid-item">
-          <img src="pg5.jpeg" alt="Image 3" />
+          <img src="/assets/pg5.jpeg" alt="Image 3" />
         </div>
       </section>
       <div className="article-content">
@@ -129,7 +133,7 @@ const BlogStyle1 = () => {
       </div>
 
       <div className="author-box">
-        <img src="pg5.jpeg" alt="Ashton Porter" className="author-img" />
+        <img src="/assets/pg5.jpeg" alt="Ashton Porter" className="author-img" />
         <div className="author-info">
           <h3>Ashton Porter</h3>
           <p className="about-author">ABOUT AUTHOR</p>
@@ -154,14 +158,17 @@ const BlogStyle1 = () => {
         <h1>You May Also Like</h1>
         </div>
         <div className="article-container2">
-  <img src="blog1.jpg" alt="Article 1" className="article-image2" />
-  <img src="blog2.jpg" alt="Article 2" className="article-image2" />
+  <img src="/assets/blog1.jpg" alt="Article 1" className="article-image2" />
+  <img src="/assets/blog2.jpg" alt="Article 2" className="article-image2" />
 </div>
 <div class="reading-container2">
     <button class="reading-btn2" onclick="goToPage('page1.html')">READING</button>
     <button class="reading-btn2" onclick="goToPage('page2.html')">READING</button>
 </div>
     </div>
+    <Footer/>
+    </>
+      
   );
 };
 
