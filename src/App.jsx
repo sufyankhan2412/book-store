@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 // Import your actual page components here
 import HomePage from './pages/HomePage/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
@@ -10,7 +9,6 @@ import CartPage from "./pages/CartPage/CartPage";
 import BlogGallery from "./pages/BlogGallery/BlogGallery";
 import BlogStyle1 from "./pages/BlogStyle1/BlogStyle1";
 import BlogStyle2 from "./pages/BlogStyle2/BlogStyle2";
-import Style1Page from './pages/Style1Page/Style1Page';
 
 // Placeholder components for extra routes
 const Placeholder = ({ title }) => <div style={{ padding: '2rem' }}><h2>{title}</h2></div>;
@@ -46,7 +44,7 @@ function App() {
         <Route path="/blog/grid-4" element={<Placeholder title="Blog - Grid 4 Columns" />} />
 
         {/* Single Posts */}
-        <Route path="/post/style-1" element={<Style1Page/>} />
+        <Route path="/post/style-1" element={<Placeholder title="Post - Style 2" />} />
         <Route path="/post/style-2" element={<Placeholder title="Post - Style 2" />} />
         <Route path="/post/sidebar" element={<Placeholder title="Post - With Sidebar" />} />
         <Route path="/post/video" element={<Placeholder title="Post - Video" />} />
