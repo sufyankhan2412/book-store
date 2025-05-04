@@ -5,11 +5,51 @@ body {
     width: 100%;
 }
 
-
-/* Event Section */
-.event-container {
+.events-section {
     padding: 40px 20px;
     background-color: #fff;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    max-width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-btn {
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Event Cards */
+.event-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -24,6 +64,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    flex-wrap: wrap;
 }
 
 .event-item:hover {
@@ -36,24 +77,61 @@ body {
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
+    margin-left: 10px;
 }
 
-.event-item h4 {
+.event-info {
+    flex-grow: 1;
+    padding: 0 20px;
+    min-width: 200px;
+}
+
+.event-info h4 {
     font-size: 1.5em;
+    margin: 0;
     color: #333;
 }
 
-.event-item p {
+.event-info p {
+    margin: 4px 0;
     font-size: 1em;
     color: #666;
 }
 
-.event-item .event-link {
-    font-size: 1.2em;
+.event-date {
+    text-align: center;
+    font-weight: bold;
     color: #007bff;
-    text-decoration: none;
+    min-width: 60px;
 }
 
-.event-item .event-link:hover {
-    text-decoration: underline;
+.event-day {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .event-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-item img {
+        margin: 10px 0 0;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+    }
 }
