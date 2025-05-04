@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import './BlogStyle1.css';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import HeaderBanner from '../../components/HeaderBanner/HeaderBanner';
 const BlogStyle1 = () => {
   useEffect(() => {
     // Shrink Navbar on Scroll
@@ -34,19 +35,10 @@ const BlogStyle1 = () => {
   }, []);
 
   return (
-    
       <>
       <Navbar/>
+      <HeaderBanner title="Blog Style 1" />
       <div>
-        {/* Hero Section (Single Image) */}
-      <section className="hero-slider">
-        <div className="hero-slide active">
-          <div className="hero-overlay"></div>
-          <div className="hero-content"></div>
-          <img src="/assets/blog4.jpeg" alt="Hero Image" className="hero-image" />
-        </div>
-      </section>
-
       <div className="article-content">
         <h1>True factors of a successful scientific project </h1>
         <center> <p>Ashton Porter Apr 21, 2020 0Comments</p></center>

@@ -41,7 +41,7 @@ const ContactPage = () => {
 
   return (
    <>
-   <Navbar />
+    <Navbar />
     <div>
     {/* CONTACT PIC */}
     <section className="CONTACT-UP">

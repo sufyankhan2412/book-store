@@ -61,8 +61,9 @@ const AboutPage = () => {
 
   return (
     <>
+    
     <div>
-      <Navbar/>
+    <Navbar/>
       <section className="About-UP">
         <h1>About Us</h1>
         <img src="/assets/blog6.jpg" />
