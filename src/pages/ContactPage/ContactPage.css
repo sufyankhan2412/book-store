@@ -220,11 +220,13 @@ body {
       gap: 20px;
     }
     
-    .contact-details, .contact-form{
+    .contact-details, .contact-form {
       width: 100%;
     }
   }
+  
 
+  
 /* About Us Section */
 .about-us {
     width: 100%;
@@ -255,4 +257,20 @@ body {
     width: 80%;
   }
   
+  .about-btn {
+    position: relative;
+    z-index: 1;
+    padding: 10px 20px;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .about-btn:hover {
+    background: #ff4c4c;
+  }
   

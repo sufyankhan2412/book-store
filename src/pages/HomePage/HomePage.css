@@ -1,380 +1,434 @@
-/* src/pages/HomePage/HomePage.css */
-
-/* ==========================
-   CTA BUTTON (page‑wide)
-   ========================== */
-   .cta-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .cta-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* ==========================
-     CREATIVE VISION
-     ========================== */
-  /* Content Section */
-.creative-vision {
-  position: relative;
+/* Hero Section */
+.hero-slider {
   display: flex;
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  height: 750px; /* Adjust height to fit content */
-  padding: 50px;
-  background: #f8f8f8;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  color: white;
+  z-index: 2;
+  text-align: center;
+}
+
+.subheading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-style: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.hero h2 {
+  font-size: 50px;
+  margin-bottom: 30px;
+  font-style: bold;
+}
+
+.cta-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #0056b3;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.left-btn {
+  left: 10px;
+}
+
+.right-btn {
+  right: 10px;
+}
+
+.slider-btn:hover {
+  background: white;
+}
+
+/* Content Section */
+.creative-vision {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 750px; /* Adjust height to fit content */
+padding: 50px;
+background: #f8f8f8;
 }
 .text-content {
-  width: 35%;
+width: 35%;
 }
 .text-content h4 {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #333;
+font-size: 14px;
+font-weight: 600;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #333;
 }
 .text-content h2 {
-  font-size: 40px;
-  font-weight: bold;
-  color: #111;
+font-size: 40px;
+font-weight: bold;
+color: #111;
 }
 .text-content p {
-  font-size: 16px;
-  color: #555;
-  line-height: 1.6;
+font-size: 16px;
+color: #555;
+line-height: 1.6;
 }
 .cta-button {
-  background: #f0c040;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s ease;
+background: #f0c040;
+border: none;
+padding: 12px 20px;
+font-size: 16px;
+font-weight: bold;
+color: #000;
+border-radius: 5px;
+cursor: pointer;
+transition: 0.3s ease;
 }
 .cta-button:hover {
-  background: #e0a020;
+background: #e0a020;
 }
 .media-content {
-  width: 45%;
-  position: relative;
+width: 45%;
+position: relative;
 }
 .background-image {
-  position: absolute;
-  left: 200px; /* Adjust position as needed */
-  width: 50%; /* Adjust the width for layering effect */
-  opacity: 1; /* Slight transparency for depth effect */
-  z-index: 1;
+position: absolute;
+left: 200px; /* Adjust position as needed */
+width: 50%; /* Adjust the width for layering effect */
+opacity: 1; /* Slight transparency for depth effect */
+z-index: 1;
 }
 .video-wrapper {
-  position: relative;
-  top: 180px;
-  left: -200px;
-  width: 90%;
-  display: inline-block;
-  z-index: 3;
+position: relative;
+top: 180px;
+left: -200px;
+width: 90%;
+display: inline-block;
+z-index: 3;
 }
 .thumbnail {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+width: 100%;
+border-radius: 10px;
+box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 .play-button {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background: rgba(0, 0, 0, 0.7);
+color: white;
+font-size: 40px;
+width: 60px;
+height: 60px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+text-decoration: none;
+transition: 0.3s ease;
+}
+.play-button:hover {
+background: rgba(0, 0, 0, 0.9);
+}
+
+/* Shop Section */
+.shop-section {
+  padding: 40px 20px;
+  height: 650px; /* Adjust height to fit content */
+  text-align: center;
+  background-color: #fff;
+}
+.shop h2 {
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.book-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.book-item {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 200px;
+}
+
+.book-image {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.book-image img {
+  width: 100%;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+.book-image:hover img {
+  transform: scale(1.1);
+}
+.icon-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  font-size: 40px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
   display: flex;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
   align-items: center;
+}
+.book-image:hover .icon-container {
+  opacity: 1;
+}
+.icon-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+  padding: 8px;
+  border-radius: 50%;
+}
+.icon-btn:hover {
+  color: red;
+}
+
+/* Blog Updates Section */
+.blog-updates {
+text-align: center;
+padding: 40px;
+background-color: #fff;
+}
+
+.section-subtitle {
+font-size: 14px;
+color: #777;
+text-transform: uppercase;
+}
+
+.section-title {
+font-size: 32px;
+font-weight: bold;
+}
+
+.blog-container {
+display: flex;
+gap: 20px;
+justify-content: center;
+margin-top: 20px;
+}
+
+/* Left Image Section */
+.blog-main {
+position: relative;
+width: 50%; /* Decreased width */
+}
+
+.blog-main-image {
+width: 100%; /* Decreased image size */
+border-radius: 8px;
+transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.blog-main-image:hover {
+transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.blog-label {
+position: absolute;
+top: 10px;
+left: 10px;
+background-color: gold;
+padding: 5px 10px;
+font-size: 14px;
+font-weight: bold;
+}
+
+/* Image Text */
+.image-text {
+font-size: 20px;
+font-weight: bold;
+color: #333;
+cursor: pointer;
+margin-top: 10px;
+user-select: none; /* Prevents text selection */
+pointer-events: none; /* Disables click events */
+}
+
+.image-text:hover {
+color: #007BFF; /* Change color on hover */
+}
+
+/* Blog List */
+.blog-list {
+display: flex;
+flex-direction: column;
+gap: 20px;
+width: 45%; /* Increased width */
+}
+
+.blog-item {
+display: flex;
+gap: 20px; /* Increased gap */
+align-items: center;
+padding: 15px; /* Increased padding for better spacing */
+border: 1px solid #ddd; /* Optional border for better visualization */
+border-radius: 8px; /* Rounded corners */
+background-color: #f9f9f9; /* Light background for items */
+transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.blog-item:hover {
+transform: translateY(-5px); /* Slight upward movement on hover */
+}
+
+.blog-thumbnail {
+width: 120px; /* Increased thumbnail size */
+height: 120px; /* Increased thumbnail size */
+border-radius: 6px;
+}
+
+.blog-content {
+text-align: left;
+}
+
+.blog-category {
+font-size: 12px;
+color: #888;
+}
+
+.blog-title {
+font-size: 18px; /* Increased font size */
+font-weight: bold;
+}
+
+
+/* Offer Section */
+.offer-section {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.offer-section h4 {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.offer-section h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  display: flex;
   justify-content: center;
-  text-decoration: none;
-  transition: 0.3s ease;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
-.play-button:hover {
-  background: rgba(0, 0, 0, 0.9);
+
+.gallery-item:hover .overlay {
+  opacity: 1;
 }
-  
-  /* ==========================
-     SHOP SECTION
-     ========================== */
-     .shop-section {
-      padding: 40px 20px;
-      height: 650px; /* Adjust height to fit content */
-      text-align: center;
-      background-color: #fff;
-  }
-  .shop h2 {
-      font-size: 2.5em;
-      color: #333;
-      margin-bottom: 20px;
-  }
-  
-  .book-grid {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-  }
-  
-  .book-item {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 200px;
-  }
-  
-  .book-image {
-      position: relative;
-      display: inline-block;
-      overflow: hidden;
-      border-radius: 5px;
-  }
-  .book-image img {
-      width: 100%;
-      border-radius: 5px;
-      transition: transform 0.3s ease-in-out;
-  }
-  .book-image:hover img {
-      transform: scale(1.1);
-  }
-  .icon-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      gap: 10px;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      align-items: center;
-  }
-  .book-image:hover .icon-container {
-      opacity: 1;
-  }
-  .icon-btn {
-      background: rgba(255, 255, 255, 0.8);
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      color: #555;
-      padding: 8px;
-      border-radius: 50%;
-  }
-  .icon-btn:hover {
-      color: red;
-  }
-  
-  /* ==========================
-     BLOG UPDATES
-     ========================== */
-     .blog-updates {
-      text-align: center;
-      padding: 40px;
-      background-color: #fff;
-    }
-    
-    .section-subtitle {
-      font-size: 14px;
-      color: #777;
-      text-transform: uppercase;
-    }
-    
-    .section-title {
-      font-size: 32px;
-      font-weight: bold;
-    }
-    
-    .blog-container {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    /* Left Image Section */
-    .blog-main {
-      position: relative;
-      width: 50%; /* Decreased width */
-    }
-    
-    .blog-main-image {
-      width: 100%; /* Decreased image size */
-      border-radius: 8px;
-      transition: transform 0.3s ease; /* Smooth hover effect */
-    }
-    
-    .blog-main-image:hover {
-      transform: scale(1.05); /* Zoom effect on hover */
-    }
-    
-    .blog-label {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: gold;
-      padding: 5px 10px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-    
-    /* Image Text */
-    .image-text {
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-      cursor: pointer;
-      margin-top: 10px;
-      user-select: none; /* Prevents text selection */
-      pointer-events: none; /* Disables click events */
-    }
-    
-    .image-text:hover {
-      color: #007BFF; /* Change color on hover */
-    }
-    
-    /* Blog List */
-    .blog-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 45%; /* Increased width */
-    }
-    
-    .blog-item {
-      display: flex;
-      gap: 20px; /* Increased gap */
-      align-items: center;
-      padding: 15px; /* Increased padding for better spacing */
-      border: 1px solid #ddd; /* Optional border for better visualization */
-      border-radius: 8px; /* Rounded corners */
-      background-color: #f9f9f9; /* Light background for items */
-      transition: transform 0.3s ease; /* Smooth hover effect */
-    }
-    
-    .blog-item:hover {
-      transform: translateY(-5px); /* Slight upward movement on hover */
-    }
-    
-    .blog-thumbnail {
-      width: 120px; /* Increased thumbnail size */
-      height: 120px; /* Increased thumbnail size */
-      border-radius: 6px;
-    }
-    
-    .blog-content {
-      text-align: left;
-    }
-    
-    .blog-category {
-      font-size: 12px;
-      color: #888;
-    }
-    
-    .blog-title {
-      font-size: 18px; /* Increased font size */
-      font-weight: bold;
-    }
-  
-  /* ==========================
-     OFFER / GALLERY
-     ========================== */
-     .offer-section {
-      padding: 40px 20px;
-      text-align: center;
-      background-color: #fff;
-  }
-  
-  .offer-section h4 {
-      font-size: 14px;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 5px;
-  }
-  
-  .offer-section h2 {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 30px;
-  }
-  
-  .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-  }
-  
-  .gallery-item {
-      position: relative;
-      overflow: hidden;
-  }
-  
-  .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease-in-out;
-  }
-  
-  .gallery-item:hover img {
-      transform: scale(1.1);
-  }
-  
-  .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-  }
-  
-  .gallery-item:hover .overlay {
-      opacity: 1;
-  }
-  
-  .overlay h3 {
-      font-size: 22px;
-      margin-bottom: 5px;
-  }
-  
-  .overlay p {
-      font-size: 14px;
-      margin: 0;
-  }
-  
-  /* ==========================
-     Ensure responsive tweaks
-     ========================== */
-  @media (max-width: 768px) {
-    .creative-vision { flex-direction: column; }
-    .creative-vision .media-content { display: none; }
-  
-    .blog-container { flex-direction: column; }
-    .blog-main, .blog-list { width: 100%; }
-  
-    .shop-section .book-grid { flex-direction: column; }
-  }
-  
+
+.overlay h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.overlay p {
+  font-size: 14px;
+  margin: 0;
+}

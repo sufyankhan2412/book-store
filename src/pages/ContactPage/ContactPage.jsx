@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import { 
     FaUser, 
     FaEnvelope, 
@@ -15,8 +14,16 @@ import {
 import './ContactPage.css';
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import HeaderBanner from '../../components/HeaderBanner/HeaderBanner';
+import { useNavigate } from 'react-router-dom';
+
 
 const ContactPage = () => {
+  const navigate = useNavigate();
+
+  const handleAboutUs = () => {
+    navigate('/about');
+  };
   useEffect(() => {
     // Shrink Navbar on Scroll
     const navbar = document.querySelector('.navbar');
@@ -42,12 +49,8 @@ const ContactPage = () => {
   return (
    <>
     <Navbar />
+    <HeaderBanner title="CONTACT" />
     <div>
-    {/* CONTACT PIC */}
-    <section className="CONTACT-UP">
-        <h1>CONTACT</h1>
-    </section>
-    
       {/* Contact Details Section */}
     <section className="contacts-container">
       <div className="container">
@@ -124,7 +127,9 @@ const ContactPage = () => {
       {/* About Us Section */}
     <section className="about-us">
         <h2>We Create Comfy Atmosphere for You</h2>
-        <button className="about-btn">About Us</button>
+        <button className="about-btn" onClick={handleAboutUs}>
+            About Us
+          </button>
     </section>
 
     </div>

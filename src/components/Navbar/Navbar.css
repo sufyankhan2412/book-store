@@ -200,4 +200,24 @@ body {
   .dropdown-blog:hover .dropdown-menu-blog {
     display: block;
   }
+
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .social-icon {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: #ff6600;
+    transform: scale(1.1);
+  }
+  
+  
   

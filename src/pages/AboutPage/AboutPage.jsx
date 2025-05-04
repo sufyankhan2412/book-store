@@ -3,6 +3,7 @@ import './AboutPage.css';
 import { useNavigate } from 'react-router-dom';
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import HeaderBanner from '../../components/HeaderBanner/HeaderBanner';
 
 const AboutPage = () => {
   const navigate = useNavigate();
@@ -61,14 +62,10 @@ const AboutPage = () => {
 
   return (
     <>
-    
-    <div>
     <Navbar/>
-      <section className="About-UP">
-        <h1>About Us</h1>
-        <img src="/assets/blog6.jpg" />
-      </section>
-
+    <HeaderBanner title="About Us" />
+    <div>
+    
       <div className="container">
         <div className="text-section">
           <p>WHAT WE DO</p>

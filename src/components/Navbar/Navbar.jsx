@@ -1,6 +1,20 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Navbar.css';
+import { 
+  FaUser, 
+  FaEnvelope, 
+  FaPhone, 
+  FaInfoCircle, 
+  FaPaperPlane, 
+  FaMapMarkerAlt, 
+  FaFacebook, 
+  FaTwitter, 
+  FaDribbble, 
+  FaInstagram, 
+  FaGlobe, 
+  FaShoppingBag 
+} from "react-icons/fa";
 
 const Navbar = () => {
   useEffect(() => {
@@ -88,12 +102,23 @@ const Navbar = () => {
       </ul>
 
       <div className="social-icons">
-        <i className="fab fa-facebook"></i>
-        <i className="fab fa-twitter"></i>
-        <i className="fas fa-globe"></i>
-        <i className="fab fa-instagram"></i>
-        <i className="fas fa-shopping-bag"></i>
+        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+          <FaFacebook className="social-icon" />
+        </a>
+        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+          <FaTwitter className="social-icon" />
+        </a>
+        <Link to="/global-news">
+          <FaGlobe className="social-icon" />
+        </Link>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <FaInstagram className="social-icon" />
+        </a>
+        <Link to="/cart">
+          <FaShoppingBag className="social-icon" />
+        </Link>
       </div>
+
     </nav>
   );
 };
