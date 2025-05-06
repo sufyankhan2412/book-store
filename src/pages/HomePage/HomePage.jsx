@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import './HomePage.css';
+import { FaHeart, FaShoppingBag, FaArrowRight } from 'react-icons/fa';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import NewsletterSignup from "../../components/NewsletterSignup/NewsletterSignup"
@@ -163,9 +164,9 @@ const HomePage = () => {
                   <div class="book-image">
                       <img src="/assets/book9.jpg" alt="So, Anyway..."/>
                       <div class="icon-container">
-                          <button class="icon-btn"><i class="fas fa-heart"></i></button>
-                          <button class="icon-btn"><i className="fas fa-shopping-bag"></i></button>
-                          <button class="icon-btn"><i class="fas fa-arrow-right"></i></button>
+                          <button class="icon-btn"><i class="FaHeartt"></i></button>
+                          <button class="icon-btn"><i className="FaShoppingBag"></i></button>
+                          <button class="icon-btn"><i class="FaArrowRight "></i></button>
                       </div>
                   </div>
                   <h3>The Kite Runner</h3>
