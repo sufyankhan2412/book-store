@@ -91,15 +91,14 @@ const Navbar = () => {
         <li className="dropdown">
           <span>Store</span>
           <ul className="dropdown-menu">
-            <li><Link to="/ProductList">Product List</Link></li>
-            <li><Link to="/ProductSingle">Product Single</Link></li>
+            <li><Link to="/shop">Product List</Link></li>
             <li><Link to="/cart">Cart</Link></li>
           </ul>
         </li>
 
         <li><Link to="/contact">Contact</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/signup">SignUp</Link></li>
+        <li><Link to="/login-page">Login</Link></li>
+        <li><Link to="/signup-page">SignUp</Link></li>
       </ul>
 
       <div className="social-icons">

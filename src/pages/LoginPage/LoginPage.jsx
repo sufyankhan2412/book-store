@@ -20,7 +20,7 @@ function LoginPage() {
     try {
       console.log('[DEBUG] Attempting login with credentials');
       await loginWithCredentials(email, password);
-      navigate('/home'); // Make sure this route exists
+      navigate('/home'); 
     } catch (err) {
       console.error('[DEBUG] Login component error:', err);
       setError(err.message || 'Login failed. Please check your credentials.');

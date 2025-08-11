@@ -4,8 +4,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
+const multer = require('multer');
 const fs = require('fs');
- 
+
 // Load environment variables
 dotenv.config();
 
@@ -18,8 +19,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/writers-s
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('✅ MongoDB connected'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Middleware
 app.use(cors({
@@ -39,16 +40,42 @@ if (!fs.existsSync(uploadDir)) {
 app.use('/assets', express.static('D:/assets'));
 app.use('/uploads', express.static(uploadDir));
 
+// File upload configuration using multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
 
-// Import Routes
+// ===== Import Routes =====
 const authRoutes = require('./routes/authRoutes');
+const bookRoutes = require('./routes/books');
+const userRoutes = require('./routes/users');
+const cartRoutes = require('./routes/cart');
+const favoritesRoutes = require('./routes/favorites');
 
-
-// Route Middleware
+// ===== Route Middleware =====
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/favorites', favoritesRoutes);
 
+// File upload route
+app.post('/api/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+  res.json({
+    filePath: `/uploads/${req.file.filename}`
+  });
+});
 
-// API Status Endpoint
+// ===== API Status Endpoint =====
 app.get('/api', (req, res) => {
   res.json({
     status: '✅ API is working',
@@ -58,18 +85,41 @@ app.get('/api', (req, res) => {
         login: 'POST /api/auth/login',
         validateToken: 'GET /api/auth/validate-token',
       },
+      users: {
+        profile: 'GET /api/users/profile',
+        update: 'PUT /api/users/profile',
+        validate: 'GET /api/users/validate',
+      },
+      cart: {
+        get: 'GET /api/cart',
+        update: 'POST /api/cart',
+        clear: 'DELETE /api/cart',
+        remove: 'DELETE /api/cart/:bookId'
+      },
+      favorites: {
+        get: 'GET /api/favorites',
+        toggle: 'POST /api/favorites',
+        check: 'GET /api/favorites/:bookId'
+      },
+      books: {
+        getAll: 'GET /api/books',
+        getOne: 'GET /api/books/:id',
+        create: 'POST /api/books',
+        update: 'PATCH /api/books/:id',
+        delete: 'DELETE /api/books/:id',
+      },
       upload: 'POST /api/upload'
     },
     note: 'Endpoints except for /api/auth/register and /api/auth/login require authentication'
   });
 });
 
-// 404 Not Found Handler
+// ===== 404 Not Found Handler =====
 app.use((req, res) => {
   res.status(404).json({ message: `❌ Route ${req.originalUrl} not found` });
 });
 
-// Global Error Handler
+// ===== Global Error Handler =====
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({

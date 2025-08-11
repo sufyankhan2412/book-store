@@ -1,23 +1,22 @@
-// 5. CREATE PRIVATEROUTE COMPONENT (PrivateRoute.jsx)
-// This component is referenced but wasn't included in your files
+// src/routes/PrivateRoute.jsx
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 function PrivateRoute({ children }) {
-  const { isAuthenticated, loading } = useContext(AuthContext);
-  
-  // Show loading state if still determining authentication
-  if (loading) {
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
+
+  // Show a loading spinner/message while authentication is still being verified
+  if (isLoading) {
     return <div>Loading...</div>;
   }
-  
+
   // Redirect to login if not authenticated
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
-  
-  // Return children if authenticated
+
+  // Allow access if authenticated
   return children;
 }
 

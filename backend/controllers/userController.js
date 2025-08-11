@@ -33,7 +33,6 @@ const userController = {
   // Register new user
   registerUser: async (req, res) => {
     try {
-      // Check DB connection first
       const isConnected = await checkDbConnection();
       if (!isConnected) {
         console.error('[DEBUG] MongoDB is not connected when trying to register user');
@@ -65,9 +64,7 @@ const userController = {
 
       if (password.length < 6) {
         console.log('[DEBUG] Password too short');
-        return res.status(400).json({ 
-          message: 'Password must be at least 6 characters' 
-        });
+        return res.status(400).json({ message: 'Password must be at least 6 characters' });
       }
 
       // Check if user already exists
@@ -86,18 +83,16 @@ const userController = {
         name: validator.escape(name),
         email: normalizedEmail,
         password, // The User model will hash this in the pre-save hook
-        cart: [],   // Initialize empty cart
-        favorites: [] // Initialize empty favorites
+        cart: [],
+        favorites: []
       });
 
-      // Save user to database with explicit error handling
       console.log('[DEBUG] Attempting to save user to database');
       try {
         await newUser.save();
         console.log('[DEBUG] User saved successfully with ID:', newUser._id);
       } catch (saveError) {
         console.error('[DEBUG] Error saving user:', saveError);
-        // Check for specific MongoDB errors
         if (saveError.name === 'ValidationError') {
           console.error('[DEBUG] Validation error details:', saveError.errors);
           return res.status(400).json({ 
@@ -108,11 +103,11 @@ const userController = {
             }, {})
           });
         }
-        if (saveError.code === 11000) { // Duplicate key error
+        if (saveError.code === 11000) {
           console.error('[DEBUG] Duplicate key error');
           return res.status(409).json({ message: 'User already exists with this email' });
         }
-        throw saveError; // Re-throw for general error handling
+        throw saveError;
       }
 
       // Generate token
@@ -136,7 +131,6 @@ const userController = {
   // Login user
   loginUser: async (req, res) => {
     try {
-      // Check DB connection first
       const isConnected = await checkDbConnection();
       if (!isConnected) {
         console.error('[DEBUG] MongoDB is not connected when trying to login');
@@ -147,13 +141,11 @@ const userController = {
       
       const { email, password } = req.body;
 
-      // Basic validation
       if (!email || !password) {
         console.log('[DEBUG] Missing email or password');
         return res.status(400).json({ message: 'Email and password are required' });
       }
 
-      // Check if user exists
       const normalizedEmail = validator.normalizeEmail(email);
       console.log('[DEBUG] Looking up user with normalized email:', normalizedEmail);
       
@@ -163,7 +155,6 @@ const userController = {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
-      // Check password
       console.log('[DEBUG] Checking password for user:', user._id);
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
@@ -171,7 +162,6 @@ const userController = {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
-      // Generate token
       const token = generateToken(user._id);
       console.log('[DEBUG] Login successful for:', email);
       console.log('[DEBUG] Generated token:', token.substring(0, 20) + '...');
@@ -195,7 +185,6 @@ const userController = {
     try {
       console.log('[DEBUG] Validating token for user ID:', req.user.id);
       
-      // Auth middleware already verified the token and attached user to req
       const user = await User.findById(req.user.id).select('-password');
       if (!user) {
         console.log('[DEBUG] User not found for ID:', req.user.id);
@@ -257,7 +246,6 @@ const userController = {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      // Update fields with validation
       if (name) user.name = validator.escape(name);
       if (email) {
         if (!validator.isEmail(email)) {
@@ -269,12 +257,9 @@ const userController = {
       if (password) {
         if (password.length < 6) {
           console.log('[DEBUG] Password too short');
-          return res.status(400).json({ 
-            message: 'Password must be at least 6 characters' 
-          });
+          return res.status(400).json({ message: 'Password must be at least 6 characters' });
         }
-        // Don't hash here - let the pre-save middleware do it
-        user.password = password;
+        user.password = password; // pre-save middleware will hash it
       }
 
       await user.save();
