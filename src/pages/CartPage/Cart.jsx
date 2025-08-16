@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import "./Cart.css";
 import { useShop } from "../../context/useShop";
+import "../../App.css"
+
 
 const Cart = () => {
-  const { cart, setCart } = useShop();
+  const { cart, setCart, updateQuantity, removeFromCart } = useShop();
+  const [localCart, setLocalCart] = useState([]);
   const [paymentType, setPaymentType] = useState("Credit Card");
   const [cardInfo, setCardInfo] = useState({
     name: "",
@@ -15,34 +18,84 @@ const Cart = () => {
     paypalEmail: "",
   });
 
-  const removeFromCart = (productId) => {
-    const newCart = cart.filter(item => item.id !== productId);
-    setCart(newCart);
+  // Initialize cart from localStorage and context
+  useEffect(() => {
+    const savedCart = localStorage.getItem('writerShopCart');
+    if (savedCart) {
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        setLocalCart(parsedCart);
+        // Update context cart if it's different
+        if (setCart && JSON.stringify(cart) !== JSON.stringify(parsedCart)) {
+          setCart(parsedCart);
+        }
+      } catch (error) {
+        console.error("Error parsing cart from localStorage:", error);
+        setLocalCart([]);
+      }
+    } else {
+      setLocalCart([]);
+    }
+  }, []);
+
+  // Sync with context cart changes
+  useEffect(() => {
+    if (cart && cart.length >= 0) {
+      setLocalCart(cart);
+    }
+  }, [cart]);
+
+  const handleRemoveFromCart = (productId) => {
+    const newCart = localCart.filter(item => String(item.id) !== String(productId));
+    setLocalCart(newCart);
     localStorage.setItem('writerShopCart', JSON.stringify(newCart));
+    
+    // Update context if available
+    if (setCart) {
+      setCart(newCart);
+    }
+    
+    // Use context function if available
+    if (removeFromCart) {
+      removeFromCart(productId);
+    }
   };
 
-  const updateQuantity = (productId, newQuantity) => {
+  const handleUpdateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) {
-      removeFromCart(productId);
+      handleRemoveFromCart(productId);
       return;
     }
     
-    const newCart = cart.map(item => 
-      item.id === productId ? { ...item, quantity: newQuantity } : item
+    const newCart = localCart.map(item => 
+      String(item.id) === String(productId) 
+        ? { ...item, quantity: newQuantity } 
+        : item
     );
-    setCart(newCart);
+    
+    setLocalCart(newCart);
     localStorage.setItem('writerShopCart', JSON.stringify(newCart));
+    
+    // Update context if available
+    if (setCart) {
+      setCart(newCart);
+    }
+    
+    // Use context function if available
+    if (updateQuantity) {
+      updateQuantity(productId, newQuantity);
+    }
   };
 
   const calculateTotal = () => {
     // Ensure prices are numbers and quantities are valid
-    const subtotal = cart.reduce((sum, item) => {
+    const subtotal = localCart.reduce((sum, item) => {
       const price = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
       const quantity = typeof item.quantity === 'number' ? item.quantity : parseInt(item.quantity) || 0;
       return sum + (price * quantity);
     }, 0);
     
-    const shipping = 2.99;
+    const shipping = localCart.length > 0 ? 2.99 : 0; // Only charge shipping if cart has items
     const total = subtotal + shipping;
     
     return { 
@@ -60,6 +113,11 @@ const Cart = () => {
   };
 
   const handleCheckout = async () => {
+    if (localCart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
     if (paymentType === "Credit Card" || paymentType === "Debit Card") {
       const { name, expiration, number, cvv } = cardInfo;
 
@@ -84,12 +142,20 @@ const Cart = () => {
     }
 
     try {
-      await api.post('/api/orders', {
-        paymentMethod: paymentType,
-        cardInfo
-      });
+      // Simulate API call
+      // await api.post('/api/orders', {
+      //   paymentMethod: paymentType,
+      //   cardInfo,
+      //   items: localCart,
+      //   total
+      // });
       
-      setCart([]);
+      // Clear cart after successful payment
+      setLocalCart([]);
+      localStorage.removeItem('writerShopCart');
+      if (setCart) {
+        setCart([]);
+      }
       alert("✅ Payment successful! Order created.");
     } catch (err) {
       alert("❌ Payment failed: " + (err.response?.data?.message || 'Server error'));
@@ -113,7 +179,7 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.length === 0 ? (
+                  {localCart.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="text-center">
                         <p>Your cart is empty</p>
@@ -123,7 +189,7 @@ const Cart = () => {
                       </td>
                     </tr>
                   ) : (
-                    cart.map((item) => {
+                    localCart.map((item) => {
                       const itemPrice = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
                       const itemQuantity = typeof item.quantity === 'number' ? item.quantity : parseInt(item.quantity) || 0;
                       const itemTotal = itemPrice * itemQuantity;
@@ -131,15 +197,21 @@ const Cart = () => {
                       // Use absolute URL if path starts with '/' and is a relative path
                       const imageUrl = item.image && item.image.startsWith('/') && !item.image.startsWith('http')
                         ? `http://localhost:5000${item.image}`
-                        : item.image;
+                        : item.image || '/images/placeholder.jpg';
 
                       return (
                         <tr key={item.id}>
                           <th>
                             <div className="book-info">
-                              <img src={imageUrl} alt="Book" />
+                              <img 
+                                src={imageUrl} 
+                                alt={item.title || "Book"} 
+                                onError={(e) => {
+                                  e.target.src = '/images/placeholder.jpg';
+                                }}
+                              />
                               <div className="book-details">
-                                <p>{item.title}</p>
+                                <p>{item.title || "Unknown Title"}</p>
                                 <p className="author">{item.author || "Unknown Author"}</p>
                               </div>
                             </div>
@@ -147,16 +219,32 @@ const Cart = () => {
                           <td>{item.format || "Digital"}</td>
                           <td>
                             <div className="quantity-controls">
-                              <button onClick={() => updateQuantity(item.id, itemQuantity - 1)}>−</button>
-                              <input type="number" value={itemQuantity} readOnly />
-                              <button onClick={() => updateQuantity(item.id, itemQuantity + 1)}>+</button>
+                              <button 
+                                onClick={() => handleUpdateQuantity(item.id, itemQuantity - 1)}
+                                disabled={itemQuantity <= 1}
+                              >
+                                −
+                              </button>
+                              <input 
+                                type="number" 
+                                value={itemQuantity} 
+                                onChange={(e) => {
+                                  const newQuantity = parseInt(e.target.value) || 1;
+                                  handleUpdateQuantity(item.id, newQuantity);
+                                }}
+                                min="1"
+                              />
+                              <button onClick={() => handleUpdateQuantity(item.id, itemQuantity + 1)}>
+                                +
+                              </button>
                             </div>
                           </td>
                           <td>${itemTotal.toFixed(2)}</td>
                           <td>
                             <button 
                               className="remove-item"
-                              onClick={() => removeFromCart(item.id)}
+                              onClick={() => handleRemoveFromCart(item.id)}
+                              title="Remove item"
                             >
                               <X size={16} />
                             </button>
@@ -169,7 +257,7 @@ const Cart = () => {
               </table>
             </div>
 
-            {cart.length > 0 && (
+            {localCart.length > 0 && (
               <div className="payment-card">
                 <div className="row">
                   <div className="col payment-methods">

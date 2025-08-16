@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./FavoritesPage.css";
-import {useShop} from "../../context/useShop";
+import { useShop } from "../../context/useShop";
+
 
 export default function FavoritesPage() {
   const {
@@ -14,37 +15,136 @@ export default function FavoritesPage() {
     favoriteVersion,
   } = useShop();
 
+  const [localFavorites, setLocalFavorites] = useState([]);
+
+  // Initialize favorites from localStorage
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('writerShopFavorites');
+    if (savedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(savedFavorites).map(id => String(id));
+        setLocalFavorites(parsedFavorites);
+      } catch (error) {
+        console.error("Error parsing favorites from localStorage:", error);
+        setLocalFavorites([]);
+      }
+    } else {
+      setLocalFavorites([]);
+    }
+  }, []);
+
+  // Sync with context favorites changes
+  useEffect(() => {
+    if (favorites && favorites.length >= 0) {
+      const stringFavorites = favorites.map(id => String(id));
+      setLocalFavorites(stringFavorites);
+    }
+  }, [favorites, favoriteVersion]);
+
+  // Also listen for localStorage changes from other tabs
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'writerShopFavorites') {
+        try {
+          const newFavorites = e.newValue ? JSON.parse(e.newValue).map(id => String(id)) : [];
+          setLocalFavorites(newFavorites);
+        } catch (error) {
+          console.error("Error parsing favorites from storage event:", error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   console.log("FavoritesPage rendered with version:", favoriteVersion);
-  console.log("Current favorites:", favorites);
+  console.log("Local favorites:", localFavorites);
+  console.log("Context favorites:", favorites);
   console.log("Products available:", products.length);
 
   const favoritedProducts = useMemo(() => {
-    if (!Array.isArray(favorites) || favorites.length === 0) {
+    if (!Array.isArray(localFavorites) || localFavorites.length === 0) {
       return [];
     }
 
-    let storedFavorites = [];
-    try {
-      const storedData = localStorage.getItem("writerShopFavorites");
-      storedFavorites = storedData
-        ? JSON.parse(storedData).map((id) => String(id))
-        : [];
-    } catch (error) {
-      console.error("Error reading favorites from localStorage:", error);
-      storedFavorites = favorites.map((id) => String(id));
+    if (!Array.isArray(products) || products.length === 0) {
+      return [];
     }
 
-    const filtered = products.filter(
-      (product) =>
-        product &&
-        storedFavorites.some((fav) => String(fav) === String(product.id))
-    );
+    const filtered = products.filter(product => {
+      if (!product || !product.id) return false;
+      return localFavorites.some(favId => String(favId) === String(product.id));
+    });
 
-    console.log(
-      `Found ${filtered.length} favorited products using localStorage check`
-    );
+    console.log(`Found ${filtered.length} favorited products`);
     return filtered;
-  }, [favorites, products, favoriteVersion]);
+  }, [localFavorites, products, favoriteVersion]);
+
+  const handleToggleFavorite = (productId, event) => {
+    const stringProductId = String(productId);
+    const isFavorited = localFavorites.some(id => String(id) === stringProductId);
+    
+    let newFavorites;
+    if (isFavorited) {
+      newFavorites = localFavorites.filter(id => String(id) !== stringProductId);
+    } else {
+      newFavorites = [...localFavorites, stringProductId];
+    }
+    
+    // Update local state immediately
+    setLocalFavorites(newFavorites);
+    
+    // Update localStorage immediately
+    localStorage.setItem('writerShopFavorites', JSON.stringify(newFavorites));
+    
+    // Use context function if available
+    if (toggleFavorite) {
+      toggleFavorite(productId, event);
+    }
+  };
+
+  const handleAddToCart = (product, event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    // Create a properly formatted product object
+    const productToAdd = {
+      id: product._id || product.id,
+      title: product.title,
+      author: product.author || "Unknown Author",
+      price: typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0,
+      image: product.image || product.imagePath,
+      format: product.format || "Digital"
+    };
+
+    // Update cart in localStorage immediately
+    const existingCart = JSON.parse(localStorage.getItem('writerShopCart') || '[]');
+    const existingItem = existingCart.find(item => String(item.id) === String(productToAdd.id));
+    
+    let newCart;
+    if (existingItem) {
+      newCart = existingCart.map(item =>
+        String(item.id) === String(productToAdd.id)
+          ? { ...item, quantity: (item.quantity || 1) + 1 }
+          : item
+      );
+    } else {
+      newCart = [...existingCart, { ...productToAdd, quantity: 1 }];
+    }
+    
+    localStorage.setItem('writerShopCart', JSON.stringify(newCart));
+
+    // Use context function if available
+    if (addToCart) {
+      addToCart(product, event);
+    }
+
+    // Show feedback
+    alert(`Added "${product.title}" to cart!`);
+  };
 
   if (isLoading) {
     return (
@@ -102,10 +202,14 @@ export default function FavoritesPage() {
                     src={imageUrl}
                     alt={product.title}
                     className="product-image"
+                    onError={(e) => {
+                      e.target.src = '/images/placeholder.jpg';
+                    }}
                   />
                   <button
                     className="wishlist-button active"
-                    onClick={(e) => toggleFavorite(product.id, e)}
+                    onClick={(e) => handleToggleFavorite(product.id, e)}
+                    title="Remove from favorites"
                   >
                     <Heart size={18} fill="#e53e3e" />
                   </button>
@@ -113,12 +217,13 @@ export default function FavoritesPage() {
 
                 <div className="product-details">
                   <h3 className="product-title">{product.title}</h3>
+                  <p className="product-author">{product.author || "Unknown Author"}</p>
                   <p className="product-price">
                     ${Number(product.price || 0).toFixed(2)}
                   </p>
                   <button
                     className="add-to-cart-button"
-                    onClick={(e) => addToCart(product, e)}
+                    onClick={(e) => handleAddToCart(product, e)}
                   >
                     <ShoppingCart size={16} /> Add to Cart
                   </button>
@@ -131,5 +236,3 @@ export default function FavoritesPage() {
     </div>
   );
 }
-
-

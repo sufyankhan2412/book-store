@@ -5,19 +5,30 @@ import './Shop.css';
 import { Link } from 'react-router-dom';
 import { useShop } from "../../context/useShop";
 
+
 export default function Shop() {
   const navigate = useNavigate();
+  
   // Get the context values with proper error handling
   const shopContext = useShop();
   
-  // Initialize local state for favorites and cart in case context isn't ready yet
+  // Use context values directly with fallbacks
+  const {
+    products = [],
+    favorites = [],
+    cart = [],
+    isLoading = true,
+    error = null,
+    addToCart: contextAddToCart,
+    toggleFavorite: contextToggleFavorite
+  } = shopContext || {};
+  
+  // Local state for favorites and cart to ensure immediate UI updates
   const [localFavorites, setLocalFavorites] = useState([]);
   const [localCart, setLocalCart] = useState([]);
   const [localProducts, setLocalProducts] = useState([]);
   const [localCategories, setLocalCategories] = useState([]);
   const [localGenres, setLocalGenres] = useState([]);
-  const [localLoading, setLocalLoading] = useState(true);
-  const [localError, setLocalError] = useState(null);
   
   // Component-specific state
   const [viewMode, setViewMode] = useState('grid');
@@ -30,33 +41,17 @@ export default function Shop() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-  // Initialize with context values or use local state if context isn't available
+  // Initialize local state from localStorage
   useEffect(() => {
-    if (shopContext) {
-      // Check if each context property exists before using it
-      if (shopContext.favorites !== undefined) setLocalFavorites(shopContext.favorites);
-      if (shopContext.cart !== undefined) setLocalCart(shopContext.cart);
-      if (shopContext.products !== undefined) setLocalProducts(shopContext.products);
-      if (shopContext.categories !== undefined) setLocalCategories(shopContext.categories);
-      if (shopContext.genres !== undefined) setLocalGenres(shopContext.genres);
-      if (shopContext.isLoading !== undefined) setLocalLoading(shopContext.isLoading);
-      if (shopContext.error !== undefined) setLocalError(shopContext.error);
-    }
-  }, [shopContext]);
-
-  // Load favorites from localStorage when component mounts
-  useEffect(() => {
+    // Load favorites from localStorage
     const savedFavorites = localStorage.getItem('writerShopFavorites');
     if (savedFavorites) {
       try {
-        const parsedFavorites = JSON.parse(savedFavorites);
+        const parsedFavorites = JSON.parse(savedFavorites).map(id => String(id));
         setLocalFavorites(parsedFavorites);
-        // Only update context if it exists and has the setFavorites function
-        if (shopContext && typeof shopContext.setFavorites === 'function') {
-          shopContext.setFavorites(parsedFavorites);
-        }
       } catch (error) {
         console.error("Error parsing favorites from localStorage:", error);
+        setLocalFavorites([]);
       }
     }
     
@@ -66,113 +61,37 @@ export default function Shop() {
       try {
         const parsedCart = JSON.parse(savedCart);
         setLocalCart(parsedCart);
-        // Only update context if it exists and has the setCart function
-        if (shopContext && typeof shopContext.setCart === 'function') {
-          shopContext.setCart(parsedCart);
-        }
       } catch (error) {
         console.error("Error parsing cart from localStorage:", error);
+        setLocalCart([]);
       }
     }
-  }, []);
 
-  // Save favorites and cart whenever they change
-  useEffect(() => {
-    localStorage.setItem('writerShopFavorites', JSON.stringify(localFavorites));
-    localStorage.setItem('writerShopCart', JSON.stringify(localCart));
-  }, [localFavorites, localCart]);
-
-  // Fetch products from API
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLocalLoading(true);
-      try {
-        // Update to use your backend URL (ensure CORS is enabled)
-        const response = await fetch('http://localhost:5000/api/books');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        setLocalProducts(data);
-        
-        // Update context if available
-        if (shopContext && typeof shopContext.setProducts === 'function') {
-          shopContext.setProducts(data);
-        }
-        
-        // Generate categories and genres from products
-        generateCategoriesAndGenres(data);
-        
-        setLocalLoading(false);
-        // Update context if available
-        if (shopContext && typeof shopContext.setIsLoading === 'function') {
-          shopContext.setIsLoading(false);
-        }
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setLocalError(err.message);
-        if (shopContext && typeof shopContext.setError === 'function') {
-          shopContext.setError(err.message);
-        }
-        setLocalLoading(false);
-        if (shopContext && typeof shopContext.setIsLoading === 'function') {
-          shopContext.setIsLoading(false);
-        }
-        
-        // Fallback to sample data if API fails
-        useSampleData();
-      }
-    };
-    
-    const fetchUserData = async () => {
-      try {
-        // Use a simple userId for now (in production you'd use authentication)
-        const userId = localStorage.getItem('userId') || 'user-' + Date.now();
-        localStorage.setItem('userId', userId);
-        
-        const response = await fetch(`http://localhost:5000/api/users/${userId}`);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        const userData = await response.json();
-        
-        // Update cart and favorites from user data
-        const newCart = userData.cart.map(item => ({
-          ...item.bookId,
-          quantity: item.quantity
-        }));
-        const newFavorites = userData.favorites.map(book => book._id);
-        
-        setLocalCart(newCart);
-        setLocalFavorites(newFavorites);
-        
-        // Update context if available
-        if (shopContext) {
-          if (typeof shopContext.setCart === 'function') {
-            shopContext.setCart(newCart);
-          }
-          if (typeof shopContext.setFavorites === 'function') {
-            shopContext.setFavorites(newFavorites);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch user data:", err);
-        // Continue with local data if API fails
-      }
-    };
-    
-    fetchProducts();
-    fetchUserData();
-    
     // Set page as loaded after small delay for entrance animations
     setTimeout(() => {
       setIsPageLoaded(true);
     }, 100);
   }, []);
+
+  // Sync with context values when they change
+  useEffect(() => {
+    if (products && products.length > 0) {
+      setLocalProducts(products);
+      generateCategoriesAndGenres(products);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    if (favorites && favorites.length >= 0) {
+      setLocalFavorites(favorites.map(id => String(id)));
+    }
+  }, [favorites]);
+
+  useEffect(() => {
+    if (cart && cart.length >= 0) {
+      setLocalCart(cart);
+    }
+  }, [cart]);
 
   // Generate categories and genres from product data
   const generateCategoriesAndGenres = (productData) => {
@@ -209,145 +128,70 @@ export default function Shop() {
     
     setLocalCategories(formattedCategories);
     setLocalGenres(formattedGenres);
-    
-    // Update context if available
-    if (shopContext) {
-      if (typeof shopContext.setCategories === 'function') {
-        shopContext.setCategories(formattedCategories);
-      }
-      if (typeof shopContext.setGenres === 'function') {
-        shopContext.setGenres(formattedGenres);
-      }
-    }
-  };
-  
-  // Use sample data as fallback if API fails
-  const useSampleData = () => {
-    // Sample product data
-    const sampleProducts = [
-      {
-        id: 1,
-        title: "Professional Writer's Notebook",
-        price: 24.99,
-        category: "stationery",
-        genre: "uncategorized",
-        isBestseller: true,
-        image: "/api/placeholder/300/300",
-        description: "Premium notebook designed for writers with acid-free paper and lay-flat binding."
-      },
-      {
-        id: 2,
-        title: "The Art of Storytelling",
-        price: 34.95,
-        category: "books",
-        genre: "business",
-        isBestseller: false,
-        image: "/api/placeholder/300/300",
-        description: "Comprehensive guide to crafting compelling narratives for writers of all levels."
-      },
-      // Add more sample products as needed
-      {
-        id: 9,
-        title: "Gourmet Cooking for Writers",
-        price: 45.99,
-        category: "books",
-        genre: "cookbook",
-        isBestseller: true,
-        image: "/api/placeholder/300/300",
-        description: "The perfect cookbook for writers looking to cook delicious meals while staying creative."
-      },
-      {
-        id: 10,
-        title: "The Last Chapter",
-        price: 29.99,
-        category: "books",
-        genre: "drama",
-        isBestseller: false,
-        image: "/api/placeholder/300/300",
-        description: "A compelling drama about a novelist facing their own mortality and final work."
-      }
-    ];
-    
-    setLocalProducts(sampleProducts);
-    if (shopContext && typeof shopContext.setProducts === 'function') {
-      shopContext.setProducts(sampleProducts);
-    }
-    generateCategoriesAndGenres(sampleProducts);
   };
 
-  // Toggle favorite function with error handling
-  const toggleFavorite = async (productId, event) => {
+  // Toggle favorite function with localStorage persistence
+  const toggleFavorite = (productId, event) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     
-    // Ensure productId is a string for consistent comparison
     const stringProductId = String(productId);
+    const isFavorited = localFavorites.some(id => String(id) === stringProductId);
     
-    // Check if the product is already in favorites
-    const isFavorited = localFavorites.includes(stringProductId) ||
-                        localFavorites.some(id => String(id) === stringProductId);
+    let newFavorites;
+    if (isFavorited) {
+      newFavorites = localFavorites.filter(id => String(id) !== stringProductId);
+    } else {
+      newFavorites = [...localFavorites, stringProductId];
+    }
     
-    // Create new favorites array
-    const newFavorites = isFavorited
-      ? localFavorites.filter(id => String(id) !== stringProductId)
-      : [...localFavorites, stringProductId];
-    
-    // Update local state
+    // Update local state immediately for UI responsiveness
     setLocalFavorites(newFavorites);
     
-    // Update localStorage first to ensure data persistence
+    // Update localStorage immediately
     localStorage.setItem('writerShopFavorites', JSON.stringify(newFavorites));
     
-    // Update context if available - make sure this is happening
-    if (shopContext && typeof shopContext.setFavorites === 'function') {
-      shopContext.setFavorites(newFavorites);
-      console.log('Updated favorites in context:', newFavorites);
-    } else {
-      console.warn('Shop context or setFavorites function is not available');
+    // Use context function if available
+    if (contextToggleFavorite) {
+      contextToggleFavorite(productId, event);
     }
     
     // Add animation when adding to favorites
     if (event && !isFavorited) {
       const heart = document.createElement('div');
       heart.className = 'floating-heart';
-      const x = event.clientX;
-      const y = event.clientY;
-      heart.style.left = `${x}px`;
-      heart.style.top = `${y}px`;
+      heart.innerHTML = '❤️';
+      heart.style.cssText = `
+        position: fixed;
+        left: ${event.clientX}px;
+        top: ${event.clientY}px;
+        font-size: 20px;
+        pointer-events: none;
+        z-index: 9999;
+        animation: floatUp 1s ease-out forwards;
+      `;
+      
+      // Add keyframes if they don't exist
+      if (!document.querySelector('#floating-heart-styles')) {
+        const style = document.createElement('style');
+        style.id = 'floating-heart-styles';
+        style.textContent = `
+          @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
       document.body.appendChild(heart);
-      
       setTimeout(() => {
-        document.body.removeChild(heart);
+        if (document.body.contains(heart)) {
+          document.body.removeChild(heart);
+        }
       }, 1000);
-    }
-    
-    // Update in database
-    try {
-      const userId = localStorage.getItem('userId');
-      if (!userId) {
-        console.warn('No userId found in localStorage');
-        return;
-      }
-      
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/favorites`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bookId: productId }),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`);
-      }
-      
-      const data = await response.json();
-      console.log('Server response:', data);
-      
-    } catch (err) {
-      console.error("Failed to update favorites:", err);
     }
   };
 
@@ -370,7 +214,7 @@ export default function Shop() {
     );
   };
 
-  // Filter products based on current selections - using localProducts
+  // Filter products based on current selections
   const filteredProducts = localProducts.filter(product => {
     // Category filter (excluding "All Categories")
     if (selectedCategory !== 'All Categories') {
@@ -387,7 +231,8 @@ export default function Shop() {
     }
     
     // Price range filter
-    if (product.price < priceRange[0] || product.price > priceRange[1]) {
+    const productPrice = typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0;
+    if (productPrice < priceRange[0] || productPrice > priceRange[1]) {
       return false;
     }
     
@@ -397,8 +242,10 @@ export default function Shop() {
     }
     
     // Search query
-    if (searchQuery && !product.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !product.description.toLowerCase().includes(searchQuery.toLowerCase())) {
+    if (searchQuery && 
+        !product.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        !(product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        !(product.author && product.author.toLowerCase().includes(searchQuery.toLowerCase()))) {
       return false;
     }
     
@@ -409,19 +256,28 @@ export default function Shop() {
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortOption) {
       case 'price-low':
-        return a.price - b.price;
+        const priceA = typeof a.price === 'number' ? a.price : parseFloat(a.price) || 0;
+        const priceB = typeof b.price === 'number' ? b.price : parseFloat(b.price) || 0;
+        return priceA - priceB;
       case 'price-high':
-        return b.price - a.price;
+        const priceHighA = typeof a.price === 'number' ? a.price : parseFloat(a.price) || 0;
+        const priceHighB = typeof b.price === 'number' ? b.price : parseFloat(b.price) || 0;
+        return priceHighB - priceHighA;
       case 'bestsellers':
         return (b.isBestseller ? 1 : 0) - (a.isBestseller ? 1 : 0);
       case 'featured':
       default:
-        return a.id - b.id; // Default sort by ID (featured)
+        return (a.id || 0) - (b.id || 0); // Default sort by ID (featured)
     }
   });
 
-  // Add to cart function with animation (now directly navigating to cart page)
-  const addToCart = async (product, event) => {
+  // Add to cart function with immediate localStorage update
+  const addToCart = (product, event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     // Create animation element at click position
     if (event) {
       const x = event.clientX;
@@ -430,72 +286,90 @@ export default function Shop() {
       // Create the flying element
       const flyingItem = document.createElement('div');
       flyingItem.className = 'flying-item';
-      flyingItem.style.backgroundImage = `url(${product.image})`;
-      flyingItem.style.left = `${x}px`;
-      flyingItem.style.top = `${y}px`;
+      flyingItem.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: 20px;
+        height: 20px;
+        background: #007bff;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        animation: flyToCart 1s ease-out forwards;
+      `;
       
       // Get cart button position
       const cartBtn = document.querySelector('.cart-button');
-      const cartRect = cartBtn.getBoundingClientRect();
-      const cartX = cartRect.left + cartRect.width / 2;
-      const cartY = cartRect.top + cartRect.height / 2;
-      
-      // Set final position (cart)
-      flyingItem.style.setProperty('--end-x', `${cartX - x}px`);
-      flyingItem.style.setProperty('--end-y', `${cartY - y}px`);
+      if (cartBtn) {
+        const cartRect = cartBtn.getBoundingClientRect();
+        const cartX = cartRect.left + cartRect.width / 2;
+        const cartY = cartRect.top + cartRect.height / 2;
+        
+        // Add keyframes if they don't exist
+        if (!document.querySelector('#flying-item-styles')) {
+          const style = document.createElement('style');
+          style.id = 'flying-item-styles';
+          style.textContent = `
+            @keyframes flyToCart {
+              0% { transform: translate(0, 0) scale(1); opacity: 1; }
+              100% { transform: translate(${cartX - x}px, ${cartY - y}px) scale(0.2); opacity: 0; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
       
       document.body.appendChild(flyingItem);
       
       // Remove the element after animation completes
       setTimeout(() => {
-        document.body.removeChild(flyingItem);
+        if (document.body.contains(flyingItem)) {
+          document.body.removeChild(flyingItem);
+        }
       }, 1000);
     }
     
+    // Create properly formatted product object
+    const productToAdd = {
+      id: product._id || product.id,
+      title: product.title,
+      author: product.author || "Unknown Author",
+      price: typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0,
+      image: product.image || product.imagePath,
+      format: product.format || "Digital"
+    };
+    
     // Update cart state locally for immediate feedback
-    const existingItem = localCart.find(item => item.id === product.id);
-    let newQuantity = 1;
+    const existingItem = localCart.find(item => String(item.id) === String(productToAdd.id));
     let newCart;
     
     if (existingItem) {
-      newQuantity = existingItem.quantity + 1;
       newCart = localCart.map(item => 
-        item.id === product.id ? { ...item, quantity: newQuantity } : item
+        String(item.id) === String(productToAdd.id) 
+          ? { ...item, quantity: (item.quantity || 1) + 1 } 
+          : item
       );
     } else {
-      newCart = [...localCart, { ...product, quantity: newQuantity }];
+      newCart = [...localCart, { ...productToAdd, quantity: 1 }];
     }
     
+    // Update local state immediately
     setLocalCart(newCart);
     
-    // Update context if available
-    if (shopContext && typeof shopContext.setCart === 'function') {
-      shopContext.setCart(newCart);
-    }
-    
-    // Save to localStorage
+    // Save to localStorage immediately
     localStorage.setItem('writerShopCart', JSON.stringify(newCart));
     
-    // Update in database
-    try {
-      const userId = localStorage.getItem('userId');
-      await fetch(`http://localhost:5000/api/users/${userId}/cart`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          bookId: product.id, 
-          quantity: newQuantity 
-        }),
-      });
-    } catch (err) {
-      console.error("Failed to update cart:", err);
+    // Use context function if available
+    if (contextAddToCart) {
+      contextAddToCart(product, event);
     }
+    
+    console.log('Added to cart:', productToAdd);
   };
   
   // Loading state
-  if (localLoading) {
+  if (isLoading && localProducts.length === 0) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
@@ -505,13 +379,13 @@ export default function Shop() {
   }
   
   // Error state
-  if (localError && localProducts.length === 0) {
+  if (error && localProducts.length === 0) {
     return (
       <div className="error-container">
         <h2>Failed to load products</h2>
-        <p>{localError}</p>
-        <button onClick={useSampleData} className="retry-button">
-          Use Sample Data
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className="retry-button">
+          Retry
         </button>
       </div>
     );
@@ -523,7 +397,7 @@ export default function Shop() {
       <header className="shop-header">
         <div className="container">
           <div className="header-content">
-            <h1 className="shop-title">Writer's Shop</h1>
+            <h1 className="shop-title"> Readify</h1>
             
             {/* Search bar */}
             <div className="search-container">
@@ -560,7 +434,7 @@ export default function Shop() {
               <ShoppingCart size={20} />
               {localCart.length > 0 && (
                 <span className="cart-count">
-                  {localCart.reduce((total, item) => total + item.quantity, 0)}
+                  {localCart.reduce((total, item) => total + (item.quantity || 0), 0)}
                 </span>
               )}
             </button>
@@ -736,84 +610,111 @@ export default function Shop() {
             {/* Products grid */}
             {viewMode === 'grid' && sortedProducts.length > 0 && (
               <div className="products-grid">
-                {sortedProducts.map((product, index) => (
-                  <div key={product.index} className="product-card" style={{"--animation-order": index}}>
-                    <div className="product-image-container">
-                      <img src={`http://localhost:5000${product.image}`} alt={product.name} className="product-image" />
-                      {product.isBestseller && (
-                        <div className="bestseller-tag">
-                          BESTSELLER
-                        </div>
-                      )}
-                      <button 
-                        className={`wishlist-button ${localFavorites.includes(product.id) ? 'active' : ''}`}
-                        onClick={(e) => toggleFavorite(product.id, e)}
-                      >
-                        <Heart size={18} fill={localFavorites.includes(product.id) ? "#e53e3e" : "none"} />
-                      </button>
-                    </div>
-                    
-                    <div className="product-details">
-                      <h3 className="product-title">{product.title}</h3>
-                      <p className="product-price">${product.price.toFixed(2)}</p>
-                      <p className="product-description">{product.description}</p>
-                      
-                      <button 
-  className="add-to-cart-button list-view-button"
-  onClick={(e) => addToCart(product, e)}
->
-  Add to Cart
-</button>
+                {sortedProducts.map((product, index) => {
+                  const imageUrl = product.image && product.image.startsWith('/') && !product.image.startsWith('http')
+                    ? `http://localhost:5000${product.image}`
+                    : product.image || '/images/placeholder.jpg';
 
+                  const productPrice = typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0;
+                  const isProductFavorited = localFavorites.some(id => String(id) === String(product.id));
+
+                  return (
+                    <div key={product.id} className="product-card" style={{"--animation-order": index}}>
+                      <div className="product-image-container">
+                        <img 
+                          src={imageUrl} 
+                          alt={product.title} 
+                          className="product-image"
+                          onError={(e) => {
+                            e.target.src = '/images/placeholder.jpg';
+                          }}
+                        />
+                        {product.isBestseller && (
+                          <div className="bestseller-tag">
+                            BESTSELLER
+                          </div>
+                        )}
+                        <button 
+                          className={`wishlist-button ${isProductFavorited ? 'active' : ''}`}
+                          onClick={(e) => toggleFavorite(product.id, e)}
+                        >
+                          <Heart size={18} fill={isProductFavorited ? "#e53e3e" : "none"} />
+                        </button>
+                      </div>
+                      
+                      <div className="product-details">
+                        <h3 className="product-title">{product.title}</h3>
+                        <p className="product-author">{product.author || "Unknown Author"}</p>
+                        <p className="product-price">${productPrice.toFixed(2)}</p>
+                        <p className="product-description">{product.description || ""}</p>
+                        
+                        <button 
+                          className="add-to-cart-button"
+                          onClick={(e) => addToCart(product, e)}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
             
             {/* Products list */}
             {viewMode === 'list' && sortedProducts.length > 0 && (
               <div className="products-list">
-                {sortedProducts.map((product, index) => (
-                  <div key={product.id} className="product-list-item" style={{"--animation-order": index}}>
-                    <div className="product-list-image">
-                      <img src={product.image} alt={product.title} className="product-image" />
-                      {product.isBestseller && (
-                        <div className="bestseller-tag">
-                          BESTSELLER
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="product-list-details">
-                      <div className="product-list-header">
-                        <h3 className="product-title">{product.title}</h3>
-                        <button 
-                          className={`wishlist-button ${localFavorites.includes(product.id) ? 'active' : ''}`}
-                          onClick={(e) => toggleFavorite(product.id, e)}
-                        >
-                          <Heart size={18} fill={localFavorites.includes(product.id) ? "#e53e3e" : "none"} />
-                        </button>
+                {sortedProducts.map((product, index) => {
+                  const imageUrl = product.image && product.image.startsWith('/') && !product.image.startsWith('http')
+                    ? `http://localhost:5000${product.image}`
+                    : product.image || '/images/placeholder.jpg';
+
+                  const productPrice = typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0;
+                  const isProductFavorited = localFavorites.some(id => String(id) === String(product.id));
+
+                  return (
+                    <div key={product.id} className="product-list-item" style={{"--animation-order": index}}>
+                      <div className="product-list-image">
+                        <img 
+                          src={imageUrl} 
+                          alt={product.title} 
+                          className="product-image"
+                          onError={(e) => {
+                            e.target.src = '/images/placeholder.jpg';
+                          }}
+                        />
+                        {product.isBestseller && (
+                          <div className="bestseller-tag">
+                            BESTSELLER
+                          </div>
+                        )}
                       </div>
                       
-                      <p className="product-price">${product.price.toFixed(2)}</p>
-                      <p className="product-description">{product.description}</p>
-                      
-                      <button 
-                        className="add-to-cart-button list-view-button"
-                        onClick={(e) => {
-                          addToCart(product, e);
-                          // Wait for animation to complete before navigating
-                          setTimeout(() => {
-                            navigate('/Cart');
-                          }, 1000);
-                        }}
-                      >
-                        Add to Cart
-                      </button>
+                      <div className="product-list-details">
+                        <div className="product-list-header">
+                          <h3 className="product-title">{product.title}</h3>
+                          <button 
+                            className={`wishlist-button ${isProductFavorited ? 'active' : ''}`}
+                            onClick={(e) => toggleFavorite(product.id, e)}
+                          >
+                            <Heart size={18} fill={isProductFavorited ? "#e53e3e" : "none"} />
+                          </button>
+                        </div>
+                        
+                        <p className="product-author">{product.author || "Unknown Author"}</p>
+                        <p className="product-price">${productPrice.toFixed(2)}</p>
+                        <p className="product-description">{product.description || ""}</p>
+                        
+                        <button 
+                          className="add-to-cart-button list-view-button"
+                          onClick={(e) => addToCart(product, e)}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

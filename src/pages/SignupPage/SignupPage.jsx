@@ -62,7 +62,7 @@ function SignupPage() {
 
   const handleGoogleSignup = () => console.log('Google signup clicked');
   const handleAppleSignup = () => console.log('Apple signup clicked');
-  const handleLoginRedirect = () => navigate('/login');
+  const handleLoginRedirect = () => navigate('/');
 
   return (
     <div className="signup-container">

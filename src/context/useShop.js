@@ -2,10 +2,28 @@
 import { useContext } from 'react';
 import { ShopContext } from './ShopProvider';
 
-export function useShop() {
+export const useShop = () => {
   const context = useContext(ShopContext);
-  if (context === undefined) {
-    throw new Error('useShop must be used within a ShopProvider');
+  
+  if (!context) {
+    console.warn('useShop must be used within a ShopProvider');
+    // Return a fallback object instead of throwing error
+    return {
+      products: [],
+      favorites: [],
+      cart: [],
+      isLoading: false,
+      error: null,
+      favoriteVersion: 0,
+      addToCart: () => {},
+      removeFromCart: () => {},
+      updateQuantity: () => {},
+      toggleFavorite: () => {},
+      isFavorited: () => false,
+      setCart: () => {},
+      setFavorites: () => {}
+    };
   }
+  
   return context;
-}
+};

@@ -30,7 +30,7 @@ function LoginPage() {
   };
 
   const handleForgotPassword = () => navigate('/forgot-password');
-  const handleSignUp = () => navigate('/signup');
+  const handleSignUp = () => navigate('signup-page');
   const handleAppleLogin = () => console.log('Login with Apple clicked');
   const handleGoogleLogin = () => console.log('Login with Google clicked');
 
